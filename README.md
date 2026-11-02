@@ -16,6 +16,24 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
   self.play(Create(Circle(radius=${1:1}, color=${2:BLUE})))
   ```
 
+- **Circle Through Three Points** (`circle through three points`)
+
+  ```python
+  self.play(Create(Circle.from_three_points(${1:LEFT}, ${2:UP}, ${3:RIGHT}, color=${4:BLUE})))
+  ```
+
+- **Circle Around Object** (`circle around object`)
+
+  ```python
+  self.play(Create(Circle(color=${2:YELLOW}).surround(${1:mobject}, buffer_factor=${3:1.2})))
+  ```
+
+- **Point on Circle** (`point on circle`)
+
+  ```python
+  self.play(Create(Dot(Circle(radius=${1:2}).point_at_angle(${2:PI / 2}), color=${3:YELLOW})))
+  ```
+
 - **Square** (`square`)
 
   ```python
@@ -72,6 +90,12 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
   self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))
   ```
 
+- **ArcBetweenPoints by Radius** (`arc between points radius`)
+
+  ```python
+  self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, radius=${3:2.5}, color=${4:BLUE})))
+  ```
+
 - **CurvedArrow** (`curved arrow`)
 
   ```python
@@ -96,6 +120,12 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
 
   ```python
   self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, angle=${3:PI}, color=${4:BLUE})))
+  ```
+
+- **AnnularSector with Start Angle** (`annular sector start angle`)
+
+  ```python
+  self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, start_angle=${3:PI / 4}, angle=${4:PI / 2}, color=${5:BLUE})))
   ```
 
 - **Sector** (`sector`)

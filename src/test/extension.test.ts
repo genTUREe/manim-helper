@@ -8,7 +8,7 @@ import * as vscode from 'vscode';
 suite('Extension Test Suite', () => {
 	test('provides Manim shape snippets in Python files', async () => {
 		const snippets = new Map<string, vscode.SnippetString>();
-		for (const trigger of ['a', 'c', 'd', 'e', 'l', 's', 't']) {
+		for (const trigger of ['a', 'c', 'd', 'e', 'l', 'p', 's', 't']) {
 			const document = await vscode.workspace.openTextDocument({
 				language: 'python',
 				content: trigger
@@ -33,11 +33,15 @@ suite('Extension Test Suite', () => {
 
 		for (const shape of [
 			'Circle — Manim',
+			'Circle Through Three Points — Manim',
+			'Circle Around Object — Manim',
+			'Point on Circle — Manim',
 			'Square — Manim',
 			'Triangle — Manim',
 			'Star — Manim',
 			'Arc — Manim',
 			'Arc Between Points — Manim',
+			'Arc Between Points by Radius — Manim',
 			'Curved Arrow — Manim',
 			'Curved Double Arrow — Manim',
 			'Dot — Manim',
@@ -45,6 +49,7 @@ suite('Extension Test Suite', () => {
 			'Labeled Dot — Manim',
 			'Ellipse — Manim',
 			'Annular Sector — Manim',
+			'Annular Sector with Start Angle — Manim',
 			'Sector — Manim',
 			'Annulus — Manim',
 			'Cubic Bezier — Manim',
