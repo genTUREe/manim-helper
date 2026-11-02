@@ -1,71 +1,135 @@
-# manim-helper README
+# ManimHelper
 
-This is the README for your extension "manim-helper". After writing up a brief description, we recommend including the following sections.
+Code snippets for creating and animating [Manim](https://www.manim.community/) shapes in Python files in VS Code.
 
-## Features
+## Usage
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Open a Python file and start typing a shape name, such as `circle`, `curved arrow`, or `annular sector`. Select a Manim suggestion from the completion list. The snippet uses Tab stops to edit its parameters. Make sure the relevant Manim classes and constants, such as `Create`, `Circle`, `PI`, and `UP`, are available in your scene.
 
-For example if there is an image subfolder under your extension project workspace:
+## Shape snippets
 
-\!\[feature X\]\(images/feature-x.png\)
+### Basic shapes
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Circle** (`circle`)
 
-## Requirements
+  ```python
+  self.play(Create(Circle(radius=${1:1}, color=${2:BLUE})))
+  ```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- **Square** (`square`)
 
-## Extension Settings
+  ```python
+  self.play(Create(Square(side_length=${1:2}, color=${2:BLUE})))
+  ```
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- **Triangle** (`triangle`)
 
-For example:
+  ```python
+  self.play(Create(Triangle(color=${1:GREEN})))
+  ```
 
-This extension contributes the following settings:
+- **Star** (`star`)
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+  ```python
+  self.play(Create(Star(n=${1:5}, outer_radius=${2:1}, inner_radius=${3:0.5}, color=${4:YELLOW})))
+  ```
 
-## Known Issues
+- **Dot** (`dot`)
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+  ```python
+  self.play(Create(Dot(${1:ORIGIN}, color=${2:YELLOW})))
+  ```
 
-## Release Notes
+- **AnnotationDot** (`annotation dot`)
 
-Users appreciate release notes as you update your extension.
+  ```python
+  self.play(Create(AnnotationDot(${1:ORIGIN}, radius=${2:0.1}, fill_color=${3:BLUE})))
+  ```
 
-### 1.0.0
+- **LabeledDot** (`labeled dot`)
 
-Initial release of ...
+  ```python
+  self.play(Create(LabeledDot(${1:"A"}, radius=${2:0.5})))
+  ```
 
-### 1.0.1
+- **Ellipse** (`ellipse`)
 
-Fixed issue #.
+  ```python
+  self.play(Create(Ellipse(width=${1:2}, height=${2:1}, color=${3:BLUE})))
+  ```
 
-### 1.1.0
+### Arcs and arrows
 
-Added features X, Y, and Z.
+- **Arc** (`arc`)
 
----
+  ```python
+  self.play(Create(Arc(radius=${1:1}, angle=${2:PI / 2}, color=${3:BLUE})))
+  ```
 
-## Following extension guidelines
+- **ArcBetweenPoints** (`arc between points`)
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+  ```python
+  self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))
+  ```
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- **CurvedArrow** (`curved arrow`)
 
-## Working with Markdown
+  ```python
+  self.play(Create(CurvedArrow(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))
+  ```
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+- **CurvedDoubleArrow** (`curved double arrow`)
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+  ```python
+  self.play(Create(CurvedDoubleArrow(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))
+  ```
 
-## For more information
+- **TangentialArc** (`tangential arc`)
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+  ```python
+  self.play(Create(TangentialArc(${1:Line(LEFT, RIGHT)}, ${2:Line(DOWN, UP)}, radius=${3:1}, color=${4:BLUE})))
+  ```
 
-**Enjoy!**
+### Sectors and rings
+
+- **AnnularSector** (`annular sector`)
+
+  ```python
+  self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, angle=${3:PI}, color=${4:BLUE})))
+  ```
+
+- **Sector** (`sector`)
+
+  ```python
+  self.play(Create(Sector(radius=${1:1}, angle=${2:PI / 2}, color=${3:BLUE})))
+  ```
+
+- **Annulus** (`annulus`)
+
+  ```python
+  self.play(Create(Annulus(inner_radius=${1:0.5}, outer_radius=${2:1}, color=${3:BLUE})))
+  ```
+
+### Curves and polygons
+
+- **CubicBezier** (`cubic bezier`)
+
+  ```python
+  self.play(Create(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}, color=${5:BLUE})))
+  ```
+
+- **ArcPolygon** (`arc polygon`)
+
+  ```python
+  self.play(Create(ArcPolygon(${1:LEFT}, ${2:UP}, ${3:RIGHT}, angle=${4:PI / 4}, color=${5:BLUE})))
+  ```
+
+- **ArcPolygonFromArcs** (`arc polygon from arcs`)
+
+  ```python
+  self.play(Create(ArcPolygonFromArcs(${1:Arc()}, ${2:ArcBetweenPoints(LEFT, RIGHT)}, ${3:Arc()}, color=${4:BLUE})))
+  ```
+
+## Development
+
+To run the extension in development mode, install dependencies with `npm ci`, then press **F5** in VS Code. Build with `npm run compile`; run tests with `npm test`.
