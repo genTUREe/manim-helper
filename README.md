@@ -1,14 +1,14 @@
 # ManimHelper
 
-Подсказки-вставки для создания и анимации фигур [Manim](https://www.manim.community/) в Python-файлах VS Code.
+Code snippets for creating and animating [Manim](https://www.manim.community/) shapes in Python files in VS Code.
 
-## Как использовать
+## Usage
 
-Откройте Python-файл и начните вводить название фигуры, например `circle`, `curved arrow` или `annular sector`. Выберите подсказку Manim из списка автодополнения. Вставка использует позиции Tab для редактирования параметров. В коде сцены должны быть доступны соответствующие классы и константы Manim, например `Create`, `Circle`, `PI` и `UP`.
+Open a Python file and start typing a shape name, such as `circle`, `curved arrow`, or `annular sector`. Select a Manim suggestion from the completion list. The snippet uses Tab stops to edit its parameters. Make sure the relevant Manim classes and constants, such as `Create`, `Circle`, `PI`, and `UP`, are available in your scene.
 
-## Подсказки фигур
+## Shape snippets
 
-### Основные фигуры
+### Basic shapes
 
 - **Circle** (`circle`)
 
@@ -58,7 +58,7 @@
   self.play(Create(Ellipse(width=${1:2}, height=${2:1}, color=${3:BLUE})))
   ```
 
-### Дуги и стрелки
+### Arcs and arrows
 
 - **Arc** (`arc`)
 
@@ -90,7 +90,7 @@
   self.play(Create(TangentialArc(${1:Line(LEFT, RIGHT)}, ${2:Line(DOWN, UP)}, radius=${3:1}, color=${4:BLUE})))
   ```
 
-### Секторы и кольца
+### Sectors and rings
 
 - **AnnularSector** (`annular sector`)
 
@@ -110,7 +110,7 @@
   self.play(Create(Annulus(inner_radius=${1:0.5}, outer_radius=${2:1}, color=${3:BLUE})))
   ```
 
-### Кривые и многоугольники
+### Curves and polygons
 
 - **CubicBezier** (`cubic bezier`)
 
@@ -130,6 +130,6 @@
   self.play(Create(ArcPolygonFromArcs(${1:Arc()}, ${2:ArcBetweenPoints(LEFT, RIGHT)}, ${3:Arc()}, color=${4:BLUE})))
   ```
 
-## Разработка
+## Development
 
-Для запуска расширения в режиме разработки установите зависимости командой `npm ci`, затем нажмите **F5** в VS Code. Сборка: `npm run compile`. Тесты: `npm test`.
+To run the extension in development mode, install dependencies with `npm ci`, then press **F5** in VS Code. Build with `npm run compile`; run tests with `npm test`.
