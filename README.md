@@ -4,7 +4,16 @@ Code snippets for creating and animating [Manim](https://www.manim.community/) s
 
 ## Usage
 
-Open a Python file and start typing a shape name, such as `circle`, `curved arrow`, or `annular sector`. Select a Manim suggestion from the completion list. The snippet uses Tab stops to edit its parameters. Make sure the relevant Manim classes and constants, such as `Create`, `Circle`, `PI`, and `UP`, are available in your scene.
+Open a Manim Python file and type a shape name inside a `construct` method of a class derived from `Scene` or `ThreeDScene`, for example `circle`, `curved arrow`, or `annular sector`. Shape animation snippets are only offered inside these methods, where `self.play(...)` is valid. Select a Manim suggestion from the completion list and use Tab stops to edit its parameters.
+
+## Scene templates
+
+At the top level of a Python file, type `scene` and select one of the ready-to-edit scene templates:
+
+- **Manim 2D Scene Template** inserts a `Scene` class with a sample circle animation.
+- **Manim 3D Scene Template** inserts a `ThreeDScene` class with camera setup and a sample sphere animation.
+
+Use Tab to move through and edit the template placeholders.
 
 ## Shape snippets
 

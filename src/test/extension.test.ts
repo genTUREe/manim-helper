@@ -1,33 +1,48 @@
 import * as assert from 'assert';
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+
+async function getSnippetCompletions(
+	documentText: string,
+	position: vscode.Position,
+	triggerCharacter: string
+): Promise<Map<string, vscode.SnippetString>> {
+	const document = await vscode.workspace.openTextDocument({
+		language: 'python',
+		content: documentText
+	});
+	const completions =
+		await vscode.commands.executeCommand<vscode.CompletionList>(
+			'vscode.executeCompletionItemProvider',
+			document.uri,
+			position,
+			triggerCharacter
+		);
+	const snippets = new Map<string, vscode.SnippetString>();
+
+	for (const item of completions?.items ?? []) {
+		if (item.insertText instanceof vscode.SnippetString) {
+			snippets.set(
+				typeof item.label === 'string' ? item.label : item.label.label,
+				item.insertText
+			);
+		}
+	}
+
+	return snippets;
+}
 
 suite('Extension Test Suite', () => {
-	test('provides Manim shape snippets in Python files', async () => {
+	test('provides shape snippets inside a Manim scene construct', async () => {
 		const snippets = new Map<string, vscode.SnippetString>();
 		for (const trigger of ['a', 'c', 'd', 'e', 'l', 'p', 's', 't']) {
-			const document = await vscode.workspace.openTextDocument({
-				language: 'python',
-				content: trigger
-			});
-			const completions =
-				await vscode.commands.executeCommand<vscode.CompletionList>(
-					'vscode.executeCompletionItemProvider',
-					document.uri,
-					new vscode.Position(0, 1),
-					trigger
-				);
+			const completions = await getSnippetCompletions(
+				'class MyScene(Scene):\n    def construct(self):\n        ',
+				new vscode.Position(2, 8),
+				trigger
+			);
 
-			for (const item of completions?.items ?? []) {
-				if (item.insertText instanceof vscode.SnippetString) {
-					snippets.set(
-						typeof item.label === 'string' ? item.label : item.label.label,
-						item.insertText
-					);
-				}
+			for (const [label, snippet] of completions) {
+				snippets.set(label, snippet);
 			}
 		}
 
@@ -68,5 +83,59 @@ suite('Extension Test Suite', () => {
 				`Completion must include a snippet placeholder: ${shape}`
 			);
 		}
+
+		assert.ok(
+			!snippets.has('Manim 2D Scene Template'),
+			'Scene templates should not be offered inside construct'
+		);
+	});
+
+	test('provides scene templates for the scene prefix at module scope', async () => {
+		const snippets = await getSnippetCompletions(
+			'scene',
+			new vscode.Position(0, 5),
+			'e'
+		);
+
+		for (const [template, sceneType] of [
+			['Manim 2D Scene Template', 'Scene'],
+			['Manim 3D Scene Template', 'ThreeDScene']
+		]) {
+			const snippet = snippets.get(template);
+			assert.ok(snippet, `Missing completion: ${template}`);
+			assert.ok(
+				snippet.value.startsWith('from manim import *'),
+				`Template must include the Manim import: ${template}`
+			);
+			assert.ok(
+				snippet.value.includes(`(${sceneType}):`),
+				`Template must use ${sceneType}: ${template}`
+			);
+		}
+
+		assert.ok(
+			!snippets.has('Circle — Manim'),
+			'Shape animations should not be offered at module scope'
+		);
+	});
+
+	test('does not offer animation snippets in a class declaration', async () => {
+		const snippets = await getSnippetCompletions(
+			'class MyVector(Scene):',
+			new vscode.Position(0, 10),
+			'a'
+		);
+
+		assert.strictEqual(snippets.size, 0);
+	});
+
+	test('does not offer animation snippets outside a scene construct', async () => {
+		const snippets = await getSnippetCompletions(
+			'class MyVector:\n    def __init__(self):\n        ',
+			new vscode.Position(2, 8),
+			'a'
+		);
+
+		assert.strictEqual(snippets.size, 0);
 	});
 });

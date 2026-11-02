@@ -1,5 +1,104 @@
 import * as vscode from 'vscode';
 
+function getIndentation(line: string): number {
+  return line.length - line.trimStart().length;
+}
+
+function isInsideSceneConstruct(
+  document: vscode.TextDocument,
+  position: vscode.Position
+): boolean {
+  let sceneClassIndent: number | undefined;
+  let constructIndent: number | undefined;
+
+  for (let lineNumber = 0; lineNumber <= position.line; lineNumber++) {
+    const line = document.lineAt(lineNumber).text;
+    const text =
+      lineNumber === position.line
+        ? line.slice(0, position.character)
+        : line;
+    const trimmed = text.trim();
+
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+
+    const indentation = getIndentation(text);
+
+    if (sceneClassIndent !== undefined && indentation <= sceneClassIndent) {
+      sceneClassIndent = undefined;
+      constructIndent = undefined;
+    }
+
+    if (
+      /^class\s+\w+\s*\([^)]*\b(?:Scene|ThreeDScene)\b[^)]*\)\s*:/.test(
+        trimmed
+      )
+    ) {
+      sceneClassIndent = indentation;
+      constructIndent = undefined;
+      continue;
+    }
+
+    if (sceneClassIndent === undefined) {
+      continue;
+    }
+
+    if (constructIndent !== undefined && indentation <= constructIndent) {
+      constructIndent = undefined;
+    }
+
+    if (
+      indentation > sceneClassIndent &&
+      /^def\s+construct\s*\(/.test(trimmed)
+    ) {
+      constructIndent = indentation;
+    }
+  }
+
+  return (
+    sceneClassIndent !== undefined &&
+    constructIndent !== undefined &&
+    getIndentation(document.lineAt(position.line).text) > constructIndent
+  );
+}
+
+function isAtModuleScopeScenePrefix(
+  document: vscode.TextDocument,
+  position: vscode.Position
+): boolean {
+  let classIndent: number | undefined;
+
+  for (let lineNumber = 0; lineNumber < position.line; lineNumber++) {
+    const line = document.lineAt(lineNumber).text;
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+
+    const indentation = getIndentation(line);
+    if (classIndent !== undefined && indentation <= classIndent) {
+      classIndent = undefined;
+    }
+
+    if (/^class\s+\w+/.test(trimmed)) {
+      classIndent = indentation;
+    }
+  }
+
+  const line = document.lineAt(position.line).text;
+  const prefix = line.slice(0, position.character);
+  const currentWord = prefix.match(/[A-Za-z_]\w*$/)?.[0].toLowerCase() ?? '';
+
+  return (
+    classIndent === undefined &&
+    getIndentation(line) === 0 &&
+    currentWord.length > 0 &&
+    'scene'.startsWith(currentWord)
+  );
+}
+
 export function activate(context: vscode.ExtensionContext) {
   console.log('ManimHelper is now active!');
 
@@ -179,19 +278,45 @@ export function activate(context: vscode.ExtensionContext) {
     }
   ];
 
+  const sceneTemplates = [
+    {
+      label: 'Manim 2D Scene Template',
+      filterText: 'scene',
+      insertText:
+        'from manim import *\n\n\nclass ${1:MyScene}(Scene):\n    def construct(self):\n        ${0:self.play(Create(Circle(color=BLUE)))}',
+      detail: 'Insert a ready-to-edit 2D Manim scene'
+    },
+    {
+      label: 'Manim 3D Scene Template',
+      filterText: 'scene',
+      insertText:
+        'from manim import *\n\n\nclass ${1:My3DScene}(ThreeDScene):\n    def construct(self):\n        self.set_camera_orientation(phi=${2:70} * DEGREES, theta=${3:-45} * DEGREES)\n        ${0:self.play(Create(Sphere()))}',
+      detail: 'Insert a ready-to-edit 3D Manim scene'
+    }
+  ];
+
   const provider = vscode.languages.registerCompletionItemProvider(
     { language: 'python' },
     {
-      provideCompletionItems() {
-        return shapes.map((shape) => {
+      provideCompletionItems(
+        document: vscode.TextDocument,
+        position: vscode.Position
+      ) {
+        const availableSnippets = isInsideSceneConstruct(document, position)
+          ? shapes
+          : isAtModuleScopeScenePrefix(document, position)
+            ? sceneTemplates
+            : [];
+
+        return availableSnippets.map((snippet) => {
           const item = new vscode.CompletionItem(
-            shape.label,
+            snippet.label,
             vscode.CompletionItemKind.Snippet
           );
 
-          item.filterText = shape.filterText;
-          item.insertText = new vscode.SnippetString(shape.insertText);
-          item.detail = shape.detail;
+          item.filterText = snippet.filterText;
+          item.insertText = new vscode.SnippetString(snippet.insertText);
+          item.detail = snippet.detail;
 
           return item;
         });
