@@ -19,6 +19,27 @@ export function activate(context: vscode.ExtensionContext) {
       detail: 'Create and animate a Manim circle'
     },
     {
+      label: 'Circle Through Three Points — Manim',
+      filterText: 'circle through three points',
+      insertText:
+        'self.play(Create(Circle.from_three_points(${1:LEFT}, ${2:UP}, ${3:RIGHT}, color=${4:BLUE})))',
+      detail: 'Create and animate a circle through three points'
+    },
+    {
+      label: 'Circle Around Object — Manim',
+      filterText: 'circle around object',
+      insertText:
+        'self.play(Create(Circle(color=${2:YELLOW}).surround(${1:mobject}, buffer_factor=${3:1.2})))',
+      detail: 'Create and animate a circle around an existing mobject'
+    },
+    {
+      label: 'Point on Circle — Manim',
+      filterText: 'point on circle',
+      insertText:
+        'self.play(Create(Dot(Circle(radius=${1:2}).point_at_angle(${2:PI / 2}), color=${3:YELLOW})))',
+      detail: 'Create and animate a dot at an angle on a circle'
+    },
+    {
       label: 'Square — Manim',
       filterText: 'square',
       insertText:
@@ -51,6 +72,13 @@ export function activate(context: vscode.ExtensionContext) {
       insertText:
         'self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))',
       detail: 'Create and animate an arc between two points'
+    },
+    {
+      label: 'Arc Between Points by Radius — Manim',
+      filterText: 'arc between points radius',
+      insertText:
+        'self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, radius=${3:2.5}, color=${4:BLUE})))',
+      detail: 'Create and animate an arc between two points using its radius'
     },
     {
       label: 'Curved Arrow — Manim',
@@ -99,6 +127,13 @@ export function activate(context: vscode.ExtensionContext) {
       insertText:
         'self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, angle=${3:PI}, color=${4:BLUE})))',
       detail: 'Create and animate a sector of an annulus'
+    },
+    {
+      label: 'Annular Sector with Start Angle — Manim',
+      filterText: 'annular sector start angle',
+      insertText:
+        'self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, start_angle=${3:PI / 4}, angle=${4:PI / 2}, color=${5:BLUE})))',
+      detail: 'Create and animate an annular sector with a custom start angle'
     },
     {
       label: 'Sector — Manim',
@@ -167,6 +202,7 @@ export function activate(context: vscode.ExtensionContext) {
     'd',
     'e',
     'l',
+    'p',
     's',
     't'
   );
