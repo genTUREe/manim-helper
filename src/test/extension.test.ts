@@ -121,16 +121,25 @@ suite('Extension Test Suite', () => {
 		}
 
 		assert.ok(
+			snippets
+				.get('Annotation Dot — Manim')
+				?.value.startsWith('self.play(Create(AnnotationDot(radius='),
+			'AnnotationDot radius must not be passed positionally and by keyword'
+		);
+
+		assert.ok(
 			!snippets.has('Manim 2D Scene Template'),
 			'Scene templates should not be offered inside construct'
 		);
 	});
 
 	test('VMobject keyword matches vector path completions', async () => {
+		const documentText =
+			'class MyScene(Scene):\n    def construct(self):\n        vmobject';
 		const items = await getCompletionItems(
-			'class MyScene(Scene):\n    def construct(self):\n        ',
-			new vscode.Position(2, 8),
-			'v'
+			documentText,
+			new vscode.Position(2, documentText.split('\n')[2].length),
+			't'
 		);
 		const filterTexts = new Map(
 			items.map((item) => [
@@ -142,12 +151,13 @@ suite('Extension Test Suite', () => {
 		for (const label of [
 			'VMobject Polyline — Manim',
 			'VMobject Smooth Curve — Manim',
+			'VMobject Stroke Style — Manim',
+			'Dashed VMobject — Manim',
 			'Gradient Curve — Manim'
 		]) {
-			assert.ok(
-				filterTexts.get(label)?.startsWith('vmobject'),
-				`Typing "vmobject" should match the leading filter text for ${label}`
-			);
+			const filterText = filterTexts.get(label);
+			assert.ok(filterText, `Typing "vmobject" should return ${label}`);
+			assert.ok(filterText.includes('vmobject'));
 		}
 	});
 

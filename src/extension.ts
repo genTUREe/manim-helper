@@ -210,7 +210,7 @@ export function activate(context: vscode.ExtensionContext) {
       label: 'Annotation Dot — Manim',
       filterText: 'annotation dot',
       insertText:
-        'self.play(Create(AnnotationDot(${1:ORIGIN}, radius=${2:0.1}, fill_color=${3:BLUE})))',
+        'self.play(Create(AnnotationDot(radius=${2:0.1}, fill_color=${3:BLUE}).move_to(${1:ORIGIN})))',
       detail: 'Create and animate an annotation dot'
     },
     {

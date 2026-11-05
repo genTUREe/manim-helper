@@ -84,7 +84,7 @@ The static ManimHelper landing page is in `website/`. To preview it locally, ope
 - **AnnotationDot** (`annotation dot`)
 
   ```python
-  self.play(Create(AnnotationDot(${1:ORIGIN}, radius=${2:0.1}, fill_color=${3:BLUE})))
+  self.play(Create(AnnotationDot(radius=${2:0.1}, fill_color=${3:BLUE}).move_to(${1:ORIGIN})))
   ```
 
 - **LabeledDot** (`labeled dot`)
