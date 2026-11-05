@@ -219,7 +219,27 @@
           </article>
           <article class="example-card code-example">
             <div class="example-copy">
-              <span class="card-number">06 / SEQUENCES</span>
+              <span class="card-number">06 / CURVES</span>
+              <h3>Trace a spiral</h3>
+              <p>Watch a single path wind outward from the center.</p>
+              <span class="code-pill">ParametricFunction · Create</span>
+            </div>
+            <div class="example-art art-spiral">
+              <svg viewBox="0 0 300 150" role="img" aria-label="A coral and teal spiral expanding from its center">
+                <path class="spiral-path" d="M150 75 C150 68 160 68 160 75 C160 87 140 87 140 75 C140 57 170 57 170 75 C170 98 130 98 130 75 C130 46 180 46 180 75 C180 110 120 110 120 75 C120 35 190 35 190 75 C190 123 110 123 110 75"/>
+                <circle class="spiral-core" cx="150" cy="75" r="4"/>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for drawing a spiral"><code><span class="code-purple">import</span> numpy <span class="code-purple">as</span> np
+<span class="code-purple">spiral</span> = <span class="code-green">ParametricFunction</span>(
+    <span class="code-purple">lambda</span> t: <span class="code-orange">0.08</span> * t * <span class="code-green">np.array</span>([
+        <span class="code-green">np.cos</span>(t), <span class="code-green">np.sin</span>(t), <span class="code-orange">0</span>]),
+    <span class="code-orange">t_range=[0, 8 * PI]</span>)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(spiral))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">07 / SEQUENCES</span>
               <h3>Fibonacci finds its golden ratio</h3>
               <p>Divide each Fibonacci number by the one before it. The ratios settle toward φ ≈ 1.618.</p>
               <span class="code-pill">Axes · plot_line_graph · DashedLine</span>

@@ -200,6 +200,12 @@ h1, h2, h3, p { margin-top: 0; }
 .vectors text { fill: #d5d6de; font: 11px 'DM Mono', monospace; }
 .art-vectors text { fill: #d5d6de; font: 11px 'DM Mono', monospace; }
 @keyframes draw-vector { to { stroke-dashoffset: 0; } }
+.spiral-path { fill: none; stroke: var(--teal); stroke-dasharray: 440; stroke-dashoffset: 440; stroke-linecap: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.45)); }
+.is-playing .spiral-path { animation: draw-spiral 1.8s .2s ease-out forwards; }
+.spiral-core { fill: var(--orange); filter: drop-shadow(0 0 5px var(--orange)); }
+.is-playing .spiral-core { animation: core-pulse 1.5s ease-in-out infinite alternate; }
+@keyframes draw-spiral { to { stroke-dashoffset: 0; } }
+@keyframes core-pulse { to { r: 7px; opacity: .6; } }
 .fibonacci-grid { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 1; }
 .phi-line { fill: none; stroke: var(--orange); stroke-dasharray: 4 4; stroke-width: 1.5; }
 .fibonacci-path { fill: none; stroke: var(--teal); stroke-dasharray: 360; stroke-dashoffset: 360; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.45)); }
@@ -297,6 +303,6 @@ h1, h2, h3, p { margin-top: 0; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal-ready .reveal { opacity: 1; transform: none; }
   .editor-card { transform: none !important; }
-  .hexagon-shape, .vector-sum, .fibonacci-path { stroke-dashoffset: 0; }
+  .hexagon-shape, .vector-sum, .spiral-path, .fibonacci-path { stroke-dashoffset: 0; }
   .art-triangle path { stroke-dashoffset: 0; }
 }
