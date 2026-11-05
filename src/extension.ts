@@ -264,14 +264,14 @@ export function activate(context: vscode.ExtensionContext) {
     },
     {
       label: 'VMobject Polyline — Manim',
-      filterText: 'polyline',
+      filterText: 'polyline vmobject',
       insertText:
         'self.play(Create(VMobject(color=${2:BLUE}).set_points_as_corners([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))',
       detail: 'Draw a vector path through editable corner points'
     },
     {
       label: 'VMobject Smooth Curve — Manim',
-      filterText: 'smooth curve',
+      filterText: 'smooth curve vmobject',
       insertText:
         'self.play(Create(VMobject(color=${2:BLUE}).set_points_smoothly([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))',
       detail: 'Draw a smooth vector path through editable anchor points'
@@ -299,7 +299,7 @@ export function activate(context: vscode.ExtensionContext) {
     },
     {
       label: 'Gradient Curve — Manim',
-      filterText: 'gradient curve',
+      filterText: 'gradient curve vmobject',
       insertText:
         'self.play(Create(CurvesAsSubmobjects(${1:CubicBezier(LEFT, LEFT + UP, RIGHT + UP, RIGHT)}).set_color_by_gradient(${2:BLUE}, ${3:RED})))',
       detail: 'Draw a curve with an editable color gradient'

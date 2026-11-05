@@ -6,6 +6,29 @@ async function getSnippetCompletions(
 	position: vscode.Position,
 	triggerCharacter: string
 ): Promise<Map<string, vscode.SnippetString>> {
+	const snippets = new Map<string, vscode.SnippetString>();
+
+	for (const item of await getCompletionItems(
+		documentText,
+		position,
+		triggerCharacter
+	)) {
+		if (item.insertText instanceof vscode.SnippetString) {
+			snippets.set(
+				typeof item.label === 'string' ? item.label : item.label.label,
+				item.insertText
+			);
+		}
+	}
+
+	return snippets;
+}
+
+async function getCompletionItems(
+	documentText: string,
+	position: vscode.Position,
+	triggerCharacter: string
+): Promise<vscode.CompletionItem[]> {
 	const document = await vscode.workspace.openTextDocument({
 		language: 'python',
 		content: documentText
@@ -17,18 +40,8 @@ async function getSnippetCompletions(
 			position,
 			triggerCharacter
 		);
-	const snippets = new Map<string, vscode.SnippetString>();
 
-	for (const item of completions?.items ?? []) {
-		if (item.insertText instanceof vscode.SnippetString) {
-			snippets.set(
-				typeof item.label === 'string' ? item.label : item.label.label,
-				item.insertText
-			);
-		}
-	}
-
-	return snippets;
+	return completions?.items ?? [];
 }
 
 suite('Extension Test Suite', () => {
@@ -111,6 +124,31 @@ suite('Extension Test Suite', () => {
 			!snippets.has('Manim 2D Scene Template'),
 			'Scene templates should not be offered inside construct'
 		);
+	});
+
+	test('VMobject keyword matches vector path completions', async () => {
+		const items = await getCompletionItems(
+			'class MyScene(Scene):\n    def construct(self):\n        ',
+			new vscode.Position(2, 8),
+			'v'
+		);
+		const filterTexts = new Map(
+			items.map((item) => [
+				typeof item.label === 'string' ? item.label : item.label.label,
+				item.filterText
+			])
+		);
+
+		for (const label of [
+			'VMobject Polyline — Manim',
+			'VMobject Smooth Curve — Manim',
+			'Gradient Curve — Manim'
+		]) {
+			assert.ok(
+				filterTexts.get(label)?.includes('vmobject'),
+				`Typing "vmobject" should match ${label}`
+			);
+		}
 	});
 
 	test('provides scene templates for the scene prefix at module scope', async () => {
