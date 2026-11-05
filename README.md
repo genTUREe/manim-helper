@@ -2,6 +2,10 @@
 
 Code snippets for creating and animating [Manim](https://www.manim.community/) shapes in Python files in VS Code.
 
+[![Open the live ManimHelper website](website/preview.png)](https://manimhelper.vercel.app/)
+
+**[Open the live website →](https://manimhelper.vercel.app/)**
+
 ## Usage
 
 Open a Manim Python file and type a shape name inside a `construct` method of a class derived from `Scene` or `ThreeDScene`, for example `circle`, `curved arrow`, or `annular sector`. Shape animation snippets are only offered inside these methods, where `self.play(...)` is valid. Select a Manim suggestion from the completion list and use Tab stops to edit its parameters.
@@ -17,7 +21,7 @@ Use Tab to move through and edit the template placeholders.
 
 ## Website
 
-The static ManimHelper landing page is in `website/` and is deployed at [manimhelper.vercel.app](https://manimhelper.vercel.app/). To preview it locally, open `website/index.html` in a browser. To deploy it with Vercel, set `website` as the project's Root Directory, then deploy the project from the Vercel dashboard or CLI.
+The static ManimHelper landing page is in `website/`. To preview it locally, open `website/index.html` in a browser. To deploy it with Vercel, set `website` as the project's Root Directory, then deploy the project from the Vercel dashboard or CLI.
 
 ## Shape snippets
 
