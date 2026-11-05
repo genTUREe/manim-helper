@@ -5,6 +5,9 @@ const demoCircle = document.querySelector('.demo-circle');
 const wave = document.querySelector('.art-wave svg');
 const wavePath = document.querySelector('.wave-path');
 const waveDot = document.querySelector('.wave-dot');
+const waveTouchTarget = document.querySelector('.wave-touch-target');
+const waveRadius = document.querySelector('.circle-radius');
+const waveConnector = document.querySelector('.wave-connector');
 const squareGrid = document.querySelector('.square-grid');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -50,43 +53,62 @@ window.addEventListener('scroll', updateScrollProgress, { passive: true });
 window.addEventListener('resize', updateScrollProgress);
 updateScrollProgress();
 
-if (wave && wavePath && waveDot) {
+if (wave && wavePath && waveDot && waveTouchTarget && waveRadius && waveConnector) {
+  const wavePoints = Array.from({ length: 101 }, (_, index) => {
+    const phase = (index / 100) * Math.PI * 2;
+    const x = 112 + index * 2;
+    const y = 70 - Math.sin(phase) * 38;
+    return `${index === 0 ? 'M' : 'L'}${x.toFixed(2)} ${y.toFixed(2)}`;
+  });
+  wavePath.setAttribute('d', wavePoints.join(' '));
   const pathLength = wavePath.getTotalLength();
+  const fullTurn = Math.PI * 2;
   wavePath.style.strokeDasharray = `${pathLength}`;
-  const moveWavePoint = (value) => {
-    const x = Math.max(8, Math.min(312, value));
-    const y = 70 - Math.sin((x / 60) * Math.PI) * 50;
-    waveDot.setAttribute('cx', String(x));
-    waveDot.setAttribute('cy', String(y));
-    waveDot.setAttribute('aria-valuenow', String(Math.round((x / 320) * 100)));
-    wavePath.style.strokeDashoffset = String(pathLength * (1 - x / 340));
+  const setWaveAngle = (angle) => {
+    const normalizedAngle = ((angle % fullTurn) + fullTurn) % fullTurn;
+    const progress = normalizedAngle / fullTurn;
+    const circleX = 48 + Math.cos(normalizedAngle) * 28;
+    const circleY = 70 - Math.sin(normalizedAngle) * 28;
+    const waveX = 112 + progress * 200;
+    const waveY = 70 - Math.sin(normalizedAngle) * 38;
+    waveDot.setAttribute('cx', String(circleX));
+    waveDot.setAttribute('cy', String(circleY));
+    waveTouchTarget.setAttribute('cx', String(circleX));
+    waveTouchTarget.setAttribute('cy', String(circleY));
+    waveTouchTarget.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
+    waveTouchTarget.setAttribute('aria-valuetext', `${Math.round(progress * 360)} degrees, height ${Math.sin(normalizedAngle).toFixed(2)}`);
+    waveRadius.setAttribute('d', `M48 70 L${circleX} ${circleY}`);
+    waveConnector.setAttribute('d', `M48 ${waveY} H${waveX}`);
+    wavePath.style.strokeDashoffset = String(pathLength * (1 - progress));
   };
-  const pointFromEvent = (event) => {
+  const angleFromEvent = (event) => {
     const point = wave.createSVGPoint();
     point.x = event.clientX;
     point.y = event.clientY;
-    return point.matrixTransform(wave.getScreenCTM().inverse()).x;
+    const localPoint = point.matrixTransform(wave.getScreenCTM().inverse());
+    return Math.atan2(70 - localPoint.y, localPoint.x - 48);
   };
-  waveDot.addEventListener('pointerdown', (event) => {
-    waveDot.setPointerCapture(event.pointerId);
-    moveWavePoint(pointFromEvent(event));
+  waveTouchTarget.addEventListener('pointerdown', (event) => {
+    waveTouchTarget.setPointerCapture(event.pointerId);
+    setWaveAngle(angleFromEvent(event));
   });
-  waveDot.addEventListener('pointermove', (event) => {
-    if (waveDot.hasPointerCapture(event.pointerId)) moveWavePoint(pointFromEvent(event));
+  waveTouchTarget.addEventListener('pointermove', (event) => {
+    if (waveTouchTarget.hasPointerCapture(event.pointerId)) setWaveAngle(angleFromEvent(event));
   });
-  waveDot.addEventListener('keydown', (event) => {
-    const step = event.shiftKey ? 20 : 6;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+  waveTouchTarget.addEventListener('keydown', (event) => {
+    const step = event.shiftKey ? Math.PI / 6 : Math.PI / 36;
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowRight' || event.key === 'ArrowUp') {
       event.preventDefault();
-      const direction = event.key === 'ArrowRight' ? 1 : -1;
-      moveWavePoint(Number(waveDot.getAttribute('cx')) + direction * step);
+      const direction = event.key === 'ArrowRight' || event.key === 'ArrowUp' ? 1 : -1;
+      const current = Number(waveTouchTarget.getAttribute('aria-valuenow')) / 100 * fullTurn;
+      setWaveAngle(current + direction * step);
     }
     if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault();
-      moveWavePoint(event.key === 'Home' ? 8 : 312);
+      setWaveAngle(event.key === 'Home' ? 0 : fullTurn - 0.001);
     }
   });
-  moveWavePoint(180);
+  setWaveAngle(0);
 }
 
 if (squareGrid) {
