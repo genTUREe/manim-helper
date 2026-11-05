@@ -6,20 +6,13 @@ async function getSnippetCompletions(
 	position: vscode.Position,
 	triggerCharacter: string
 ): Promise<Map<string, vscode.SnippetString>> {
-	const document = await vscode.workspace.openTextDocument({
-		language: 'python',
-		content: documentText
-	});
-	const completions =
-		await vscode.commands.executeCommand<vscode.CompletionList>(
-			'vscode.executeCompletionItemProvider',
-			document.uri,
-			position,
-			triggerCharacter
-		);
 	const snippets = new Map<string, vscode.SnippetString>();
 
-	for (const item of completions?.items ?? []) {
+	for (const item of await getCompletionItems(
+		documentText,
+		position,
+		triggerCharacter
+	)) {
 		if (item.insertText instanceof vscode.SnippetString) {
 			snippets.set(
 				typeof item.label === 'string' ? item.label : item.label.label,
@@ -31,10 +24,43 @@ async function getSnippetCompletions(
 	return snippets;
 }
 
+async function getCompletionItems(
+	documentText: string,
+	position: vscode.Position,
+	triggerCharacter: string
+): Promise<vscode.CompletionItem[]> {
+	const document = await vscode.workspace.openTextDocument({
+		language: 'python',
+		content: documentText
+	});
+	const completions =
+		await vscode.commands.executeCommand<vscode.CompletionList>(
+			'vscode.executeCompletionItemProvider',
+			document.uri,
+			position,
+			triggerCharacter
+		);
+
+	return completions?.items ?? [];
+}
+
 suite('Extension Test Suite', () => {
 	test('provides shape snippets inside a Manim scene construct', async () => {
 		const snippets = new Map<string, vscode.SnippetString>();
-		for (const trigger of ['a', 'c', 'd', 'e', 'l', 'p', 's', 't', 'v']) {
+		for (const trigger of [
+			'a',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'l',
+			'p',
+			'r',
+			's',
+			't',
+			'v'
+		]) {
 			const completions = await getSnippetCompletions(
 				'class MyScene(Scene):\n    def construct(self):\n        ',
 				new vscode.Position(2, 8),
@@ -48,6 +74,7 @@ suite('Extension Test Suite', () => {
 
 		for (const shape of [
 			'Circle — Manim',
+			'Filled Shape — Manim',
 			'Circle Through Three Points — Manim',
 			'Circle Around Object — Manim',
 			'Point on Circle — Manim',
@@ -73,6 +100,10 @@ suite('Extension Test Suite', () => {
 			'Dashed VMobject — Manim',
 			'Point on Bezier Path — Manim',
 			'VMobject Stroke Style — Manim',
+			'Gradient Curve — Manim',
+			'VGroup Composition — Manim',
+			'Sheen Highlight — Manim',
+			'Rounded Line Caps — Manim',
 			'Arc Polygon — Manim',
 			'Arc Polygon From Arcs — Manim',
 			'Tangential Arc — Manim'
@@ -90,9 +121,44 @@ suite('Extension Test Suite', () => {
 		}
 
 		assert.ok(
+			snippets
+				.get('Annotation Dot — Manim')
+				?.value.startsWith('self.play(Create(AnnotationDot(radius='),
+			'AnnotationDot radius must not be passed positionally and by keyword'
+		);
+
+		assert.ok(
 			!snippets.has('Manim 2D Scene Template'),
 			'Scene templates should not be offered inside construct'
 		);
+	});
+
+	test('VMobject keyword matches vector path completions', async () => {
+		const documentText =
+			'class MyScene(Scene):\n    def construct(self):\n        vmobject';
+		const items = await getCompletionItems(
+			documentText,
+			new vscode.Position(2, documentText.split('\n')[2].length),
+			't'
+		);
+		const filterTexts = new Map(
+			items.map((item) => [
+				typeof item.label === 'string' ? item.label : item.label.label,
+				item.filterText
+			])
+		);
+
+		for (const label of [
+			'VMobject Polyline — Manim',
+			'VMobject Smooth Curve — Manim',
+			'VMobject Stroke Style — Manim',
+			'Dashed VMobject — Manim',
+			'Gradient Curve — Manim'
+		]) {
+			const filterText = filterTexts.get(label);
+			assert.ok(filterText, `Typing "vmobject" should return ${label}`);
+			assert.ok(filterText.includes('vmobject'));
+		}
 	});
 
 	test('provides scene templates for the scene prefix at module scope', async () => {
