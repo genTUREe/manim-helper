@@ -200,12 +200,15 @@ h1, h2, h3, p { margin-top: 0; }
 .vectors text { fill: #d5d6de; font: 11px 'DM Mono', monospace; }
 .art-vectors text { fill: #d5d6de; font: 11px 'DM Mono', monospace; }
 @keyframes draw-vector { to { stroke-dashoffset: 0; } }
-.spiral-path { fill: none; stroke: var(--teal); stroke-dasharray: 440; stroke-dashoffset: 440; stroke-linecap: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.45)); }
-.is-playing .spiral-path { animation: draw-spiral 1.8s .2s ease-out forwards; }
-.spiral-core { fill: var(--orange); filter: drop-shadow(0 0 5px var(--orange)); }
-.is-playing .spiral-core { animation: core-pulse 1.5s ease-in-out infinite alternate; }
-@keyframes draw-spiral { to { stroke-dashoffset: 0; } }
-@keyframes core-pulse { to { r: 7px; opacity: .6; } }
+.fibonacci-grid { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 1; }
+.phi-line { fill: none; stroke: var(--orange); stroke-dasharray: 4 4; stroke-width: 1.5; }
+.fibonacci-path { fill: none; stroke: var(--teal); stroke-dasharray: 360; stroke-dashoffset: 360; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.45)); }
+.is-playing .fibonacci-path { animation: draw-fibonacci 1.8s .2s ease-out forwards; }
+.fibonacci-points circle { fill: #17191f; stroke: var(--teal); stroke-width: 2; }
+.fibonacci-points circle:last-child { fill: var(--teal); filter: drop-shadow(0 0 5px var(--teal)); }
+.fibonacci-label { fill: var(--orange); font: 8px 'DM Mono', monospace; }
+.fibonacci-axis { fill: #898b96; font: 7px 'DM Mono', monospace; }
+@keyframes draw-fibonacci { to { stroke-dashoffset: 0; } }
 .is-playing .square-grid span { animation: tile-pop .42s backwards; }
 .is-playing .square-grid span:nth-child(2) { animation-delay: .06s; }
 .is-playing .square-grid span:nth-child(3) { animation-delay: .12s; }
@@ -294,6 +297,6 @@ h1, h2, h3, p { margin-top: 0; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal-ready .reveal { opacity: 1; transform: none; }
   .editor-card { transform: none !important; }
-  .hexagon-shape, .vector-sum, .spiral-path { stroke-dashoffset: 0; }
+  .hexagon-shape, .vector-sum, .fibonacci-path { stroke-dashoffset: 0; }
   .art-triangle path { stroke-dashoffset: 0; }
 }

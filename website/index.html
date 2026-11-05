@@ -219,23 +219,36 @@
           </article>
           <article class="example-card code-example">
             <div class="example-copy">
-              <span class="card-number">06 / CURVES</span>
-              <h3>Trace a spiral</h3>
-              <p>Watch a single path wind outward from the center.</p>
-              <span class="code-pill">ParametricFunction · Create</span>
+              <span class="card-number">06 / SEQUENCES</span>
+              <h3>Fibonacci finds its golden ratio</h3>
+              <p>Divide each Fibonacci number by the one before it. The ratios settle toward φ ≈ 1.618.</p>
+              <span class="code-pill">Axes · plot_line_graph · DashedLine</span>
             </div>
-            <div class="example-art art-spiral">
-              <svg viewBox="0 0 300 150" role="img" aria-label="A coral and teal spiral expanding from its center">
-                <path class="spiral-path" d="M150 75 C150 68 160 68 160 75 C160 87 140 87 140 75 C140 57 170 57 170 75 C170 98 130 98 130 75 C130 46 180 46 180 75 C180 110 120 110 120 75 C120 35 190 35 190 75 C190 123 110 123 110 75"/>
-                <circle class="spiral-core" cx="150" cy="75" r="4"/>
+            <div class="example-art art-fibonacci">
+              <svg viewBox="0 0 300 150" role="img" aria-label="Fibonacci ratios approach the dashed golden-ratio line at 1.618">
+                <path class="fibonacci-grid" d="M42 25H280M42 55H280M42 85H280M42 115H280"/>
+                <path class="phi-line" d="M42 32.7H280"/>
+                <path class="fibonacci-path" d="M52 115 82 43 112 79 142 47 172 56 202 52 232 53.5 262 53"/>
+                <g class="fibonacci-points">
+                  <circle cx="52" cy="115" r="3.5"/><circle cx="82" cy="43" r="3.5"/>
+                  <circle cx="112" cy="79" r="3.5"/><circle cx="142" cy="47" r="3.5"/>
+                  <circle cx="172" cy="56" r="3.5"/><circle cx="202" cy="52" r="3.5"/>
+                  <circle cx="232" cy="53.5" r="3.5"/><circle cx="262" cy="53" r="3.5"/>
+                </g>
+                <text class="fibonacci-label" x="276" y="29" text-anchor="end">φ = 1.618…</text>
+                <text class="fibonacci-axis" x="42" y="133">1/1</text>
+                <text class="fibonacci-axis" x="242" y="133">34/21</text>
               </svg>
             </div>
-            <pre class="example-code" aria-label="Manim code for drawing a spiral"><code>            <span class="code-purple">import</span> numpy <span class="code-purple">as</span> np
-            <span class="code-purple">spiral</span> = <span class="code-green">ParametricFunction</span>(
-    <span class="code-purple">lambda</span> t: <span class="code-orange">0.08</span> * t * <span class="code-green">np.array</span>([
-        <span class="code-green">np.cos</span>(t), <span class="code-green">np.sin</span>(t), <span class="code-orange">0</span>]),
-    <span class="code-orange">t_range=[0, 8 * PI]</span>)
-<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(spiral))</code></pre>
+            <pre class="example-code" aria-label="Manim code plotting Fibonacci ratios and the golden ratio"><code><span class="code-purple">ratios</span> = [<span class="code-orange">1, 2, 3/2, 5/3,
+          8/5, 13/8, 21/13, 34/21</span>]
+<span class="code-purple">phi</span> = (<span class="code-orange">1 + 5**0.5</span>) / <span class="code-orange">2</span>
+            <span class="code-purple">axes</span> = <span class="code-green">Axes</span>(<span class="code-orange">x_range=[1, 8]</span>, <span class="code-orange">y_range=[1, 2]</span>)
+            <span class="code-purple">graph</span> = axes.<span class="code-green">plot_line_graph</span>(
+    <span class="code-orange">range(1, 9)</span>, ratios, add_vertex_dots=<span class="code-orange">True</span>)
+<span class="code-purple">golden_line</span> = <span class="code-green">DashedLine</span>(
+    axes.<span class="code-green">c2p</span>(<span class="code-orange">1</span>, phi), axes.<span class="code-green">c2p</span>(<span class="code-orange">8</span>, phi))
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(graph), <span class="code-green">Create</span>(golden_line))</code></pre>
           </article>
         </div>
       </section>
