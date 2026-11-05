@@ -25,8 +25,15 @@ if ('IntersectionObserver' in window && !reducedMotion.matches) {
     item.classList.add('reveal');
     revealObserver.observe(item);
   });
+  const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle('is-playing', entry.isIntersecting);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.example-card').forEach((card) => animationObserver.observe(card));
 } else {
   revealItems.forEach((item) => item.classList.add('is-visible'));
+  document.querySelectorAll('.example-card').forEach((card) => card.classList.add('is-playing'));
 }
 
 const progressBar = document.querySelector('.scroll-progress span');

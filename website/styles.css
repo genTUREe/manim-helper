@@ -181,20 +181,45 @@ h1, h2, h3, p { margin-top: 0; }
 .example-code code { font: inherit; white-space: pre; }
 .code-example svg { width: 90%; overflow: visible; }
 .art-hexagon svg circle { fill: var(--teal); filter: drop-shadow(0 0 4px var(--teal)); }
-.hexagon-shape { fill: rgba(124,244,197,.07); stroke: var(--teal); stroke-dasharray: 270; stroke-dashoffset: 270; stroke-linejoin: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.5)); animation: draw-hexagon 1.1s .15s ease-out forwards; }
+.hexagon-shape { fill: rgba(124,244,197,.07); stroke: var(--teal); stroke-dasharray: 270; stroke-dashoffset: 270; stroke-linejoin: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.5)); }
+.is-playing .hexagon-shape { animation: draw-hexagon 1.1s .15s ease-out forwards; }
 @keyframes draw-hexagon { to { stroke-dashoffset: 0; } }
 .vector-guide { fill: none; stroke: rgba(255,255,255,.18); stroke-dasharray: 4 5; stroke-width: 1; }
 .vector-a, .vector-b, .vector-sum { fill: none; stroke-linecap: round; stroke-width: 3; }
 .vector-a { stroke: var(--teal); }
 .vector-b { stroke: var(--purple); }
-.vector-sum { stroke: var(--orange); stroke-dasharray: 210; stroke-dashoffset: 210; animation: draw-vector 1s .35s ease-out forwards; }
+.vector-sum { stroke: var(--orange); stroke-dasharray: 210; stroke-dashoffset: 210; }
+.is-playing .vector-sum { animation: draw-vector 1s .35s ease-out forwards; }
 .vectors text { fill: #d5d6de; font: 11px 'DM Mono', monospace; }
 .art-vectors text { fill: #d5d6de; font: 11px 'DM Mono', monospace; }
 @keyframes draw-vector { to { stroke-dashoffset: 0; } }
-.spiral-path { fill: none; stroke: var(--teal); stroke-dasharray: 440; stroke-dashoffset: 440; stroke-linecap: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.45)); animation: draw-spiral 1.8s .2s ease-out forwards; }
-.spiral-core { fill: var(--orange); filter: drop-shadow(0 0 5px var(--orange)); animation: core-pulse 1.5s ease-in-out infinite alternate; }
+.spiral-path { fill: none; stroke: var(--teal); stroke-dasharray: 440; stroke-dashoffset: 440; stroke-linecap: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.45)); }
+.is-playing .spiral-path { animation: draw-spiral 1.8s .2s ease-out forwards; }
+.spiral-core { fill: var(--orange); filter: drop-shadow(0 0 5px var(--orange)); }
+.is-playing .spiral-core { animation: core-pulse 1.5s ease-in-out infinite alternate; }
 @keyframes draw-spiral { to { stroke-dashoffset: 0; } }
 @keyframes core-pulse { to { r: 7px; opacity: .6; } }
+.is-playing .square-grid span { animation: tile-pop .42s backwards; }
+.is-playing .square-grid span:nth-child(2) { animation-delay: .06s; }
+.is-playing .square-grid span:nth-child(3) { animation-delay: .12s; }
+.is-playing .square-grid span:nth-child(4) { animation-delay: .18s; }
+.is-playing .square-grid span:nth-child(5) { animation-delay: .24s; }
+.is-playing .square-grid span:nth-child(6) { animation-delay: .3s; }
+.is-playing .square-grid span:nth-child(7) { animation-delay: .36s; }
+.is-playing .square-grid span:nth-child(8) { animation-delay: .42s; }
+.is-playing .square-grid span:nth-child(9) { animation-delay: .48s; }
+@keyframes tile-pop { from { opacity: .2; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+.is-playing .wave-dot { animation: point-arrive .6s ease-out; }
+@keyframes point-arrive { from { opacity: .25; r: 2px; } to { opacity: 1; r: 5px; } }
+.art-triangle path { stroke-dasharray: 500; stroke-dashoffset: 500; }
+.is-playing .art-triangle path { animation: draw-triangle .9s ease-out forwards; }
+.is-playing .art-triangle path:nth-child(2) { animation-delay: .12s; }
+.is-playing .art-triangle path:nth-child(3) { animation-delay: .24s; }
+.is-playing .art-triangle path:nth-child(4) { animation-delay: .36s; }
+@keyframes draw-triangle { to { stroke-dashoffset: 0; } }
+.is-playing .vector-a, .is-playing .vector-b { animation: vector-pulse .9s ease-out; }
+.is-playing .vector-b { animation-delay: .12s; }
+@keyframes vector-pulse { 50% { stroke-width: 5; filter: drop-shadow(0 0 5px currentColor); } }
 
 .start-section { padding-bottom: 86px; }
 .start-card { position: relative; display: grid; min-height: 320px; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 35px; overflow: hidden; padding: 42px 48px; border: 1px solid rgba(124,244,197,.16); border-radius: 14px; background: linear-gradient(115deg, #1a2424, #1c1c28 57%, #20202b); }
@@ -263,4 +288,5 @@ h1, h2, h3, p { margin-top: 0; }
   .reveal-ready .reveal { opacity: 1; transform: none; }
   .editor-card { transform: none !important; }
   .hexagon-shape, .vector-sum, .spiral-path { stroke-dashoffset: 0; }
+  .art-triangle path { stroke-dashoffset: 0; }
 }
