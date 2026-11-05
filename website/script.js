@@ -10,6 +10,8 @@ const waveRadius = document.querySelector('.circle-radius');
 const waveConnector = document.querySelector('.wave-connector');
 const squareGrid = document.querySelector('.square-grid');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let playWave = () => {};
+let stopWave = () => {};
 
 document.documentElement.classList.add('reveal-ready');
 const revealItems = document.querySelectorAll(
@@ -31,6 +33,13 @@ if ('IntersectionObserver' in window && !reducedMotion.matches) {
   const animationObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       entry.target.classList.toggle('is-playing', entry.isIntersecting);
+      if (entry.target.contains(waveTouchTarget)) {
+        if (entry.isIntersecting) {
+          playWave();
+        } else {
+          stopWave();
+        }
+      }
     });
   }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
   document.querySelectorAll('.example-card').forEach((card) => animationObserver.observe(card));
@@ -64,6 +73,11 @@ if (wave && wavePath && waveDot && waveTouchTarget && waveRadius && waveConnecto
   const pathLength = wavePath.getTotalLength();
   const fullTurn = Math.PI * 2;
   wavePath.style.strokeDasharray = `${pathLength}`;
+  let waveFrame = 0;
+  stopWave = () => {
+    if (waveFrame) cancelAnimationFrame(waveFrame);
+    waveFrame = 0;
+  };
   const setWaveAngle = (angle) => {
     const normalizedAngle = ((angle % fullTurn) + fullTurn) % fullTurn;
     const progress = normalizedAngle / fullTurn;
@@ -81,6 +95,24 @@ if (wave && wavePath && waveDot && waveTouchTarget && waveRadius && waveConnecto
     waveConnector.setAttribute('d', `M48 ${waveY} H${waveX}`);
     wavePath.style.strokeDashoffset = String(pathLength * (1 - progress));
   };
+  playWave = () => {
+    stopWave();
+    if (reducedMotion.matches) {
+      setWaveAngle(fullTurn - 0.001);
+      return;
+    }
+    const started = performance.now();
+    const duration = 2600;
+    const drawFrame = (now) => {
+      const progress = Math.min(1, (now - started) / duration);
+      const eased = 0.5 - Math.cos(progress * Math.PI) / 2;
+      setWaveAngle(eased * (fullTurn - 0.001));
+      if (progress < 1) waveFrame = requestAnimationFrame(drawFrame);
+      else waveFrame = 0;
+    };
+    setWaveAngle(0);
+    waveFrame = requestAnimationFrame(drawFrame);
+  };
   const angleFromEvent = (event) => {
     const point = wave.createSVGPoint();
     point.x = event.clientX;
@@ -89,6 +121,7 @@ if (wave && wavePath && waveDot && waveTouchTarget && waveRadius && waveConnecto
     return Math.atan2(70 - localPoint.y, localPoint.x - 48);
   };
   waveTouchTarget.addEventListener('pointerdown', (event) => {
+    stopWave();
     waveTouchTarget.setPointerCapture(event.pointerId);
     setWaveAngle(angleFromEvent(event));
   });
@@ -99,16 +132,20 @@ if (wave && wavePath && waveDot && waveTouchTarget && waveRadius && waveConnecto
     const step = event.shiftKey ? Math.PI / 6 : Math.PI / 36;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowRight' || event.key === 'ArrowUp') {
       event.preventDefault();
+      stopWave();
       const direction = event.key === 'ArrowRight' || event.key === 'ArrowUp' ? 1 : -1;
       const current = Number(waveTouchTarget.getAttribute('aria-valuenow')) / 100 * fullTurn;
       setWaveAngle(current + direction * step);
     }
     if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault();
+      stopWave();
       setWaveAngle(event.key === 'Home' ? 0 : fullTurn - 0.001);
     }
   });
   setWaveAngle(0);
+  if (reducedMotion.matches) setWaveAngle(fullTurn - 0.001);
+  else if (!('IntersectionObserver' in window)) playWave();
 }
 
 if (squareGrid) {
