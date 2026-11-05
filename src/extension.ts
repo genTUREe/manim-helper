@@ -256,6 +256,41 @@ export function activate(context: vscode.ExtensionContext) {
       detail: 'Create and animate a cubic Bezier curve'
     },
     {
+      label: 'VMobject Polyline — Manim',
+      filterText: 'polyline',
+      insertText:
+        'self.play(Create(VMobject(color=${2:BLUE}).set_points_as_corners([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))',
+      detail: 'Draw a vector path through editable corner points'
+    },
+    {
+      label: 'VMobject Smooth Curve — Manim',
+      filterText: 'smooth curve',
+      insertText:
+        'self.play(Create(VMobject(color=${2:BLUE}).set_points_smoothly([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))',
+      detail: 'Draw a smooth vector path through editable anchor points'
+    },
+    {
+      label: 'Dashed VMobject — Manim',
+      filterText: 'dashed vmobject',
+      insertText:
+        'self.play(Create(DashedVMobject(${1:Circle()}, num_dashes=${2:16}, dashed_ratio=${3:0.5}, color=${4:BLUE})))',
+      detail: 'Draw a dashed copy of a vector shape'
+    },
+    {
+      label: 'Point on Bezier Path — Manim',
+      filterText: 'point on bezier path',
+      insertText:
+        'self.play(Create(Dot(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}).point_from_proportion(${5:0.5}), color=${6:YELLOW})))',
+      detail: 'Place and animate a dot at a proportion along a Bezier path'
+    },
+    {
+      label: 'VMobject Stroke Style — Manim',
+      filterText: 'vmobject stroke style',
+      insertText:
+        'self.play(Create(VMobject(stroke_color=${1:BLUE}, stroke_width=${2:6}).set_points_smoothly([${3:LEFT}, ${4:UP}, ${5:RIGHT}])))',
+      detail: 'Create a smooth vector path with an editable stroke color and width'
+    },
+    {
       label: 'Arc Polygon — Manim',
       filterText: 'arc polygon',
       insertText:
@@ -329,7 +364,8 @@ export function activate(context: vscode.ExtensionContext) {
     'l',
     'p',
     's',
-    't'
+    't',
+    'v'
   );
 
   context.subscriptions.push(helloWorld, provider);
