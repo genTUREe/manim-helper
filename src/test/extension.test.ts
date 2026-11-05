@@ -145,8 +145,8 @@ suite('Extension Test Suite', () => {
 			'Gradient Curve — Manim'
 		]) {
 			assert.ok(
-				filterTexts.get(label)?.includes('vmobject'),
-				`Typing "vmobject" should match ${label}`
+				filterTexts.get(label)?.startsWith('vmobject'),
+				`Typing "vmobject" should match the leading filter text for ${label}`
 			);
 		}
 	});
