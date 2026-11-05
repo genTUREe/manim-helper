@@ -139,11 +139,18 @@
               <p>Track a point's height as it travels around a circle to draw a sine wave.</p>
               <span class="code-pill">TracedPath · ValueTracker</span>
             </div>
-            <div class="example-art art-wave" aria-label="A sine wave">
-              <svg viewBox="0 0 320 140" role="img" aria-label="Sine wave">
-                <path class="wave-grid" d="M0 35H320M0 70H320M0 105H320M40 0V140M120 0V140M200 0V140M280 0V140"/>
-                <path class="wave-path" d="M0 70 C20 15 40 15 60 70 S100 125 120 70 S160 15 180 70 S220 125 240 70 S280 15 300 70 S320 125 340 70"/>
-                <circle class="wave-dot" cx="180" cy="70" r="5" tabindex="0" role="slider" aria-label="Move the point along the sine wave" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"/>
+            <div class="example-art art-wave" aria-label="A point travels around a circle and draws a sine wave">
+              <svg viewBox="0 0 320 140" role="group" aria-label="Drag the point around the circle to trace its height as a sine wave">
+                <path class="wave-grid" d="M0 35H320M0 70H320M0 105H320M120 0V140M170 0V140M220 0V140M270 0V140"/>
+                <circle class="orbit-guide" cx="48" cy="70" r="28"/>
+                <path class="circle-radius" d="M48 70 76 70"/>
+                <path class="wave-path-bg" d="M112 70H312"/>
+                <path class="wave-path" d="M112 70"/>
+                <path class="wave-connector" d="M76 70H112"/>
+                <circle class="wave-touch-target" cx="76" cy="70" r="13" tabindex="0" role="slider" aria-label="Drag the point around the circle to draw the sine wave" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"/>
+                <circle class="wave-dot" cx="76" cy="70" r="5" aria-hidden="true"/>
+                <text class="wave-label" x="48" y="119" text-anchor="middle">circle</text>
+                <text class="wave-label" x="212" y="119" text-anchor="middle">height → wave</text>
               </svg>
             </div>
           </article>

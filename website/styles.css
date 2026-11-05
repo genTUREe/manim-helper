@@ -149,9 +149,16 @@ h1, h2, h3, p { margin-top: 0; }
 .art-caption { position: absolute; right: 15px; bottom: 12px; color: #bbbcc5; font: 10px 'DM Mono', monospace; }
 .art-wave svg { width: 92%; overflow: visible; }
 .wave-grid { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 1; }
-.wave-path { fill: none; stroke: var(--teal); stroke-dasharray: 410; stroke-dashoffset: 0; stroke-linecap: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.7)); }
-.wave-dot { fill: #fff; stroke: var(--teal); stroke-width: 3; filter: drop-shadow(0 0 5px var(--teal)); cursor: ew-resize; touch-action: none; transition: r .15s ease; }
-.wave-dot:hover, .wave-dot:focus-visible { r: 7px; outline: none; }
+.orbit-guide { fill: rgba(124,244,197,.035); stroke: rgba(124,244,197,.6); stroke-dasharray: 3 4; stroke-width: 1.5; }
+.circle-radius { fill: none; stroke: var(--purple); stroke-linecap: round; stroke-width: 2; }
+.wave-path-bg { fill: none; stroke: rgba(124,244,197,.24); stroke-linecap: round; stroke-width: 2; }
+.wave-path { fill: none; stroke: var(--teal); stroke-dasharray: 1; stroke-dashoffset: 1; stroke-linecap: round; stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(124,244,197,.7)); }
+.wave-connector { fill: none; stroke: rgba(255,184,112,.7); stroke-dasharray: 2 3; stroke-width: 1; }
+.wave-touch-target { fill: transparent; pointer-events: all; cursor: grab; touch-action: none; }
+.wave-touch-target:active { cursor: grabbing; }
+.wave-dot { fill: #fff; stroke: var(--teal); stroke-width: 3; filter: drop-shadow(0 0 5px var(--teal)); pointer-events: none; transition: r .15s ease; }
+.wave-touch-target:focus-visible + .wave-dot { r: 7px; }
+.wave-label { fill: #898b96; font: 7px 'DM Mono', monospace; letter-spacing: .3px; }
 @keyframes wave-draw { from { stroke-dashoffset: 410; } to { stroke-dashoffset: 0; } }
 @keyframes wave-dot { from { transform: translateX(-120px); } to { transform: translateX(120px); } }
 .reveal-ready .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
