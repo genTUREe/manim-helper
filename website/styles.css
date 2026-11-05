@@ -182,6 +182,7 @@ h1, h2, h3, p { margin-top: 0; }
 .square-grid[data-layer="2"] { transform: rotate(0); }
 .art-triangle svg { width: 86%; }
 .code-example { justify-content: flex-start; gap: 14px; }
+.card-wide .example-code { grid-column: 1 / -1; }
 .code-example .example-art { min-height: 158px; }
 .code-example .example-copy p { margin-bottom: 12px; }
 .example-code { width: 100%; margin: 0; overflow-x: auto; padding: 13px 14px; border: 1px solid rgba(255,255,255,.07); border-radius: 7px; background: rgba(8,10,14,.62); color: #d3d4dc; font: 9px/1.8 'DM Mono', Consolas, monospace; tab-size: 4; }
