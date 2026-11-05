@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Create mathematical animations with Manim. ManimHelper adds shape suggestions and ready-to-edit scene templates right in VS Code."
+    >
+    <meta name="theme-color" content="#101116">
+    <title>ManimHelper — Bring Your Ideas to Life</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23101116'/%3E%3Cpath d='M13 42 27 16l12 24 6-12 8 14' fill='none' stroke='%237cf4c5' stroke-linecap='round' stroke-linejoin='round' stroke-width='5'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="ManimHelper home">
+        <span class="brand-mark" aria-hidden="true">m<span>.</span></span>
+        <span>manim<span class="brand-light">helper</span></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#examples">Examples</a>
+        <a href="#start">Get started</a>
+        <a class="nav-github" href="https://github.com/genTUREe/manim-helper" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-wrap">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> A MANIM TOOL FOR VS CODE</div>
+          <h1>Bring your<br><span>ideas</span> to life.</h1>
+          <p class="hero-description">
+            Create mathematical animations with Python. ManimHelper suggests shape snippets and helps you start a scene—without searching for every example by hand.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#start">Start creating <span aria-hidden="true">↗</span></a>
+            <a class="button button-quiet" href="#examples">Explore examples <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-note"><span class="note-icon">✳</span> A free extension for VS Code</div>
+        </div>
+
+        <div class="hero-visual" aria-label="Manim code and animation preview">
+          <div class="visual-glow"></div>
+          <div class="editor-card">
+            <div class="editor-topbar">
+              <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span>my_first_scene.py</span>
+              <span class="editor-language">PYTHON</span>
+            </div>
+            <div class="editor-body" aria-hidden="true">
+              <div class="code-line"><span class="line-no">1</span><code><span class="code-purple">from</span> manim <span class="code-purple">import</span> *</code></div>
+              <div class="code-line"><span class="line-no">2</span><code>&nbsp;</code></div>
+              <div class="code-line"><span class="line-no">3</span><code><span class="code-purple">class</span> <span class="code-yellow">MyScene</span>(Scene):</code></div>
+              <div class="code-line"><span class="line-no">4</span><code>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-purple">def</span> <span class="code-blue">construct</span>(self):</code></div>
+              <div class="code-line"><span class="line-no">5</span><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.play(</code></div>
+              <div class="code-line"><span class="line-no">6</span><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-green">Create</span>(<span class="code-green">Circle</span>(color=<span class="code-orange">TEAL</span>))</code></div>
+              <div class="code-line"><span class="line-no">7</span><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</code></div>
+              <div class="code-line"><span class="line-no">8</span><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.wait()</code></div>
+            </div>
+            <div class="preview-stage">
+              <div class="stage-label"><span></span> IDEA PREVIEW</div>
+              <svg class="circle-demo" viewBox="0 0 300 145" role="img" aria-label="A circle gradually appears on screen">
+                <defs>
+                  <linearGradient id="circleStroke" x1="20" y1="0" x2="280" y2="145" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#7cf4c5"/>
+                    <stop offset="1" stop-color="#7ba8ff"/>
+                  </linearGradient>
+                  <filter id="circleGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="5" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+                <circle class="demo-circle" cx="150" cy="73" r="48" fill="none" stroke="url(#circleStroke)" stroke-width="3" filter="url(#circleGlow)"/>
+                <circle cx="150" cy="73" r="3" fill="#d9fff0"/>
+              </svg>
+              <button class="replay-button" type="button" aria-label="Replay animation"><span aria-hidden="true">↻</span> Replay</button>
+            </div>
+          </div>
+          <div class="floating-tag tag-left"><span>∑</span> Math in motion</div>
+          <div class="floating-tag tag-right"><span class="tag-spark">✳</span> Code → animation</div>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+        </div>
+      </section>
+
+      <section class="feature-strip section-wrap" id="features" aria-label="ManimHelper features">
+        <div class="strip-heading">LESS BUSYWORK.<br><span>MORE BIG IDEAS.</span></div>
+        <article class="feature-item">
+          <div class="feature-icon icon-teal" aria-hidden="true">⌘</div>
+          <div><h2>Shape snippets</h2><p>Quickly add shapes and animations right inside <code>construct</code>.</p></div>
+        </article>
+        <article class="feature-item">
+          <div class="feature-icon icon-purple" aria-hidden="true">▱</div>
+          <div><h2>Ready-made scenes</h2><p>Start with a template for a 2D or 3D animation.</p></div>
+        </article>
+        <article class="feature-item">
+          <div class="feature-icon icon-orange" aria-hidden="true">⌁</div>
+          <div><h2>Context-aware code</h2><p>Suggestions appear where they make sense in your scene.</p></div>
+        </article>
+      </section>
+
+      <section class="examples-section section-wrap" id="examples">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">IDEAS FOR YOUR FIRST SCENE</div>
+            <h2>Big ideas start<br>with a simple motion.</h2>
+          </div>
+          <p>Pick an idea you understand and explain it through shape, color, and motion.</p>
+        </div>
+        <div class="example-grid">
+          <article class="example-card card-wide">
+            <div class="example-copy">
+              <span class="card-number">01 / PATTERNS</span>
+              <h3>Odd numbers make squares</h3>
+              <p>Each next odd number adds a new L-shaped layer to the square.</p>
+              <span class="code-pill">Square · VGroup · Create</span>
+            </div>
+            <div class="example-art art-squares" aria-label="A square made of colorful blocks">
+              <div class="square-grid" data-layer="3" role="button" tabindex="0" aria-label="Show the next odd-number layer">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+              </div>
+              <span class="art-caption">1 + 3 + 5 = 3²</span>
+            </div>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">02 / MOTION</span>
+              <h3>From a circle to a wave</h3>
+              <p>Track a point's height as it travels around a circle to draw a sine wave.</p>
+              <span class="code-pill">TracedPath · ValueTracker</span>
+            </div>
+            <div class="example-art art-wave" aria-label="A point travels around a circle and draws a sine wave">
+              <svg viewBox="0 0 320 140" role="group" aria-label="Drag the point around the circle to trace its height as a sine wave">
+                <path class="wave-grid" d="M0 35H320M0 70H320M0 105H320M120 0V140M170 0V140M220 0V140M270 0V140"/>
+                <circle class="orbit-guide" cx="48" cy="70" r="28"/>
+                <path class="circle-radius" d="M48 70 76 70"/>
+                <path class="wave-path-bg" d="M112 70H312"/>
+                <path class="wave-path" d="M112 70"/>
+                <path class="wave-connector" d="M76 70H112"/>
+                <circle class="wave-touch-target" cx="76" cy="70" r="13" tabindex="0" role="slider" aria-label="Drag the point around the circle to draw the sine wave" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"/>
+                <circle class="wave-dot" cx="76" cy="70" r="5" aria-hidden="true"/>
+                <text class="wave-label" x="48" y="119" text-anchor="middle">circle</text>
+                <text class="wave-label" x="212" y="119" text-anchor="middle">height → wave</text>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for tracing a sine wave from a rotating point"><code><span class="code-purple">circle</span> = <span class="code-green">Circle</span>().<span class="code-green">shift</span>(LEFT * <span class="code-orange">3</span>)
+<span class="code-purple">angle</span> = <span class="code-green">ValueTracker</span>(<span class="code-orange">0</span>)
+<span class="code-purple">dot</span> = <span class="code-green">always_redraw</span>(
+    <span class="code-purple">lambda</span>: <span class="code-green">Dot</span>(circle.<span class="code-green">point_at_angle</span>(angle.<span class="code-green">get_value</span>())))
+<span class="code-purple">wave</span> = <span class="code-green">TracedPath</span>(
+    <span class="code-purple">lambda</span>: np.<span class="code-green">array</span>([
+        angle.<span class="code-green">get_value</span>() / PI - <span class="code-orange">1</span>,
+        np.<span class="code-green">sin</span>(angle.<span class="code-green">get_value</span>()) - <span class="code-orange">2</span>, <span class="code-orange">0</span>]))
+<span class="code-purple">self</span>.<span class="code-green">add</span>(circle, wave, dot)
+<span class="code-purple">self</span>.<span class="code-green">play</span>(angle.<span class="code-green">animate</span>.<span class="code-green">set_value</span>(
+    TAU), <span class="code-orange">run_time=4</span>, <span class="code-orange">rate_func=linear</span>)</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">03 / GEOMETRY</span>
+              <h3>The Pythagorean theorem</h3>
+              <p>See how the areas of the squares on a right triangle's sides add up.</p>
+              <span class="code-pill">Polygon · Transform</span>
+            </div>
+            <div class="example-art art-triangle" aria-label="A right triangle with squares on each side">
+              <svg viewBox="0 0 300 180" role="img" aria-label="Triangle with squares on its sides">
+                <path d="M66 142 66 78 146 142Z" fill="#7cf4c5" fill-opacity=".08" stroke="#7cf4c5" stroke-width="2"/>
+                <path d="M54 142V78H66V142Z" fill="#a88cff" fill-opacity=".35" stroke="#a88cff" stroke-width="2"/>
+                <path d="M66 154H146V142H66Z" fill="#7ba8ff" fill-opacity=".35" stroke="#7ba8ff" stroke-width="2"/>
+                <path d="m66 78 80 64 51-64-80-64Z" fill="#ffb870" fill-opacity=".26" stroke="#ffb870" stroke-width="2"/>
+                <text x="34" y="115" fill="#c7b5ff" font-size="13">a²</text>
+                <text x="99" y="174" fill="#9abaff" font-size="13">b²</text>
+                <text x="151" y="95" fill="#ffca91" font-size="13">c²</text>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for constructing squares on the sides of a right triangle"><code><span class="code-purple">A</span>, <span class="code-purple">B</span>, <span class="code-purple">C</span> = (
+    np.<span class="code-green">array</span>([-<span class="code-orange">2</span>, -<span class="code-orange">1</span>, <span class="code-orange">0</span>]),
+    np.<span class="code-green">array</span>([-<span class="code-orange">2</span>, <span class="code-orange">1</span>, <span class="code-orange">0</span>]),
+    np.<span class="code-green">array</span>([<span class="code-orange">1</span>, -<span class="code-orange">1</span>, <span class="code-orange">0</span>]))
+<span class="code-purple">def</span> <span class="code-blue">square_on_side</span>(p, q, sign):
+    edge = q - p
+    normal = sign * np.<span class="code-green">array</span>([-edge[<span class="code-orange">1</span>], edge[<span class="code-orange">0</span>], <span class="code-orange">0</span>])
+    <span class="code-purple">return</span> <span class="code-green">Polygon</span>(p, q, q + normal, p + normal)
+<span class="code-purple">triangle</span> = <span class="code-green">Polygon</span>(A, B, C)
+<span class="code-purple">squares</span> = <span class="code-green">VGroup</span>(
+    square_on_side(A, B, <span class="code-orange">1</span>),
+    square_on_side(A, C, -<span class="code-orange">1</span>),
+    square_on_side(B, C, <span class="code-orange">1</span>))
+<span class="code-purple">self</span>.<span class="code-green">play</span>(<span class="code-green">Create</span>(triangle), <span class="code-green">Create</span>(squares))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">04 / POLYGONS</span>
+              <h3>Build a hexagon</h3>
+              <p>Draw a six-sided shape, then turn it through one clean step.</p>
+              <span class="code-pill">RegularPolygon · Rotate · PI</span>
+            </div>
+            <div class="example-art art-hexagon">
+              <svg viewBox="0 0 300 150" role="img" aria-label="A glowing outline hexagon with six marked corners">
+                <path class="hexagon-shape" d="M118 36 163 36 186 75 163 114 118 114 95 75Z"/>
+                <circle cx="118" cy="36" r="3"/><circle cx="163" cy="36" r="3"/>
+                <circle cx="186" cy="75" r="3"/><circle cx="163" cy="114" r="3"/>
+                <circle cx="118" cy="114" r="3"/><circle cx="95" cy="75" r="3"/>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for drawing a rotating hexagon"><code><span class="code-purple">hexagon</span> = <span class="code-green">RegularPolygon</span>(<span class="code-orange">n=6</span>)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(hexagon))
+<span class="code-purple">self</span>.play(<span class="code-green">Rotate</span>(hexagon, <span class="code-orange">PI / 3</span>))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">05 / VECTORS</span>
+              <h3>Make vectors add up</h3>
+              <p>Place one arrow after another and compare the result with their sum.</p>
+              <span class="code-pill">Arrow · Vector · Transform</span>
+            </div>
+            <div class="example-art art-vectors">
+              <svg viewBox="0 0 300 150" role="img" aria-label="Two vectors combine into a longer result vector">
+                <defs>
+                  <marker id="vectorArrowA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#7cf4c5"/></marker>
+                  <marker id="vectorArrowB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#a88cff"/></marker>
+                  <marker id="vectorArrowC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#ffb870"/></marker>
+                </defs>
+                <path class="vector-guide" d="M55 115 145 115 205 45"/>
+                <path class="vector-a" d="M55 115 145 115" marker-end="url(#vectorArrowA)"/>
+                <path class="vector-b" d="M145 115 205 45" marker-end="url(#vectorArrowB)"/>
+                <path class="vector-sum" d="M55 115 205 45" marker-end="url(#vectorArrowC)"/>
+                <text x="91" y="136">a</text><text x="178" y="91">b</text><text x="116" y="72">a + b</text>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for adding two vectors"><code><span class="code-purple">a</span> = <span class="code-green">Arrow</span>(ORIGIN, RIGHT)
+<span class="code-purple">b</span> = <span class="code-green">Arrow</span>(RIGHT, RIGHT + UP)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(<span class="code-green">VGroup</span>(a, b)))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">06 / CURVES</span>
+              <h3>Trace a spiral</h3>
+              <p>Watch a single path wind outward from the center.</p>
+              <span class="code-pill">ParametricFunction · Create</span>
+            </div>
+            <div class="example-art art-spiral">
+              <svg viewBox="0 0 300 150" role="img" aria-label="A coral and teal spiral expanding from its center">
+                <path class="spiral-path" d="M150 75 C150 68 160 68 160 75 C160 87 140 87 140 75 C140 57 170 57 170 75 C170 98 130 98 130 75 C130 46 180 46 180 75 C180 110 120 110 120 75 C120 35 190 35 190 75 C190 123 110 123 110 75"/>
+                <circle class="spiral-core" cx="150" cy="75" r="4"/>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for drawing a spiral"><code><span class="code-purple">import</span> numpy <span class="code-purple">as</span> np
+<span class="code-purple">spiral</span> = <span class="code-green">ParametricFunction</span>(
+    <span class="code-purple">lambda</span> t: <span class="code-orange">0.08</span> * t * <span class="code-green">np.array</span>([
+        <span class="code-green">np.cos</span>(t), <span class="code-green">np.sin</span>(t), <span class="code-orange">0</span>]),
+    <span class="code-orange">t_range=[0, 8 * PI]</span>)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(spiral))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">07 / SEQUENCES</span>
+              <h3>Fibonacci finds its golden ratio</h3>
+              <p>Divide each Fibonacci number by the one before it. The ratios settle toward φ ≈ 1.618.</p>
+              <span class="code-pill">Axes · plot_line_graph · DashedLine</span>
+            </div>
+            <div class="example-art art-fibonacci">
+              <svg viewBox="0 0 300 150" role="img" aria-label="Fibonacci ratios approach the dashed golden-ratio line at 1.618">
+                <path class="fibonacci-grid" d="M42 25H280M42 55H280M42 85H280M42 115H280"/>
+                <path class="phi-line" d="M42 32.7H280"/>
+                <path class="fibonacci-path" d="M52 115 82 43 112 79 142 47 172 56 202 52 232 53.5 262 53"/>
+                <g class="fibonacci-points">
+                  <circle cx="52" cy="115" r="3.5"/><circle cx="82" cy="43" r="3.5"/>
+                  <circle cx="112" cy="79" r="3.5"/><circle cx="142" cy="47" r="3.5"/>
+                  <circle cx="172" cy="56" r="3.5"/><circle cx="202" cy="52" r="3.5"/>
+                  <circle cx="232" cy="53.5" r="3.5"/><circle cx="262" cy="53" r="3.5"/>
+                </g>
+                <text class="fibonacci-label" x="276" y="29" text-anchor="end">φ = 1.618…</text>
+                <text class="fibonacci-axis" x="42" y="133">1/1</text>
+                <text class="fibonacci-axis" x="242" y="133">34/21</text>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code plotting Fibonacci ratios and the golden ratio"><code><span class="code-purple">ratios</span> = [<span class="code-orange">1, 2, 3/2, 5/3,
+          8/5, 13/8, 21/13, 34/21</span>]
+<span class="code-purple">phi</span> = (<span class="code-orange">1 + 5**0.5</span>) / <span class="code-orange">2</span>
+            <span class="code-purple">axes</span> = <span class="code-green">Axes</span>(<span class="code-orange">x_range=[1, 8]</span>, <span class="code-orange">y_range=[1, 2]</span>)
+            <span class="code-purple">graph</span> = axes.<span class="code-green">plot_line_graph</span>(
+    <span class="code-orange">range(1, 9)</span>, ratios, add_vertex_dots=<span class="code-orange">True</span>)
+<span class="code-purple">golden_line</span> = <span class="code-green">DashedLine</span>(
+    axes.<span class="code-green">c2p</span>(<span class="code-orange">1</span>, phi), axes.<span class="code-green">c2p</span>(<span class="code-orange">8</span>, phi))
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(graph), <span class="code-green">Create</span>(golden_line))</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="start-section section-wrap" id="start">
+        <div class="start-card">
+          <div class="start-orb" aria-hidden="true"></div>
+          <div class="start-content">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR IDEA IS NEXT</div>
+            <h2>Bring to life<br>something you love.</h2>
+            <p>Install the extension, open a Python file, and start typing <code>scene</code> or a shape name.</p>
+            <a class="button button-primary" href="https://github.com/genTUREe/manim-helper" target="_blank" rel="noreferrer">View the project on GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="start-steps">
+            <div class="step"><span>01</span><p>Install <strong>Manim</strong> and open VS Code</p></div>
+            <div class="step"><span>02</span><p>Launch <strong>ManimHelper</strong> with F5</p></div>
+            <div class="step"><span>03</span><p>Create a scene and render it with Manim</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer section-wrap">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">m<span>.</span></span><span>manim<span class="brand-light">helper</span></span></a>
+      <p>Made for people who love to explain.</p>
+      <a href="https://github.com/genTUREe/manim-helper" target="_blank" rel="noreferrer">Open source <span aria-hidden="true">↗</span></a>
+    </footer>
+  </body>
+</html>

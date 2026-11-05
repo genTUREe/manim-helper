@@ -2,9 +2,26 @@
 
 Code snippets for creating and animating [Manim](https://www.manim.community/) shapes in Python files in VS Code.
 
+[![Open the live ManimHelper website](website/preview.png)](https://manimhelper.vercel.app/)
+
+**[Open the live website →](https://manimhelper.vercel.app/)**
+
 ## Usage
 
-Open a Python file and start typing a shape name, such as `circle`, `curved arrow`, or `annular sector`. Select a Manim suggestion from the completion list. The snippet uses Tab stops to edit its parameters. Make sure the relevant Manim classes and constants, such as `Create`, `Circle`, `PI`, and `UP`, are available in your scene.
+Open a Manim Python file and type a shape name inside a `construct` method of a class derived from `Scene` or `ThreeDScene`, for example `circle`, `curved arrow`, or `annular sector`. Shape animation snippets are only offered inside these methods, where `self.play(...)` is valid. Select a Manim suggestion from the completion list and use Tab stops to edit its parameters.
+
+## Scene templates
+
+At the top level of a Python file, type `scene` and select one of the ready-to-edit scene templates:
+
+- **Manim 2D Scene Template** inserts a `Scene` class with a sample circle animation.
+- **Manim 3D Scene Template** inserts a `ThreeDScene` class with camera setup and a sample sphere animation.
+
+Use Tab to move through and edit the template placeholders.
+
+## Website
+
+The static ManimHelper landing page is in `website/`. To preview it locally, open `website/index.html` in a browser. To deploy it with Vercel, set `website` as the project's Root Directory, then deploy the project from the Vercel dashboard or CLI.
 
 ## Shape snippets
 
@@ -14,6 +31,24 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
 
   ```python
   self.play(Create(Circle(radius=${1:1}, color=${2:BLUE})))
+  ```
+
+- **Circle Through Three Points** (`circle through three points`)
+
+  ```python
+  self.play(Create(Circle.from_three_points(${1:LEFT}, ${2:UP}, ${3:RIGHT}, color=${4:BLUE})))
+  ```
+
+- **Circle Around Object** (`circle around object`)
+
+  ```python
+  self.play(Create(Circle(color=${2:YELLOW}).surround(${1:mobject}, buffer_factor=${3:1.2})))
+  ```
+
+- **Point on Circle** (`point on circle`)
+
+  ```python
+  self.play(Create(Dot(Circle(radius=${1:2}).point_at_angle(${2:PI / 2}), color=${3:YELLOW})))
   ```
 
 - **Square** (`square`)
@@ -72,6 +107,12 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
   self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))
   ```
 
+- **ArcBetweenPoints by Radius** (`arc between points radius`)
+
+  ```python
+  self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, radius=${3:2.5}, color=${4:BLUE})))
+  ```
+
 - **CurvedArrow** (`curved arrow`)
 
   ```python
@@ -98,6 +139,12 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
   self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, angle=${3:PI}, color=${4:BLUE})))
   ```
 
+- **AnnularSector with Start Angle** (`annular sector start angle`)
+
+  ```python
+  self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, start_angle=${3:PI / 4}, angle=${4:PI / 2}, color=${5:BLUE})))
+  ```
+
 - **Sector** (`sector`)
 
   ```python
@@ -116,6 +163,36 @@ Open a Python file and start typing a shape name, such as `circle`, `curved arro
 
   ```python
   self.play(Create(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}, color=${5:BLUE})))
+  ```
+
+- **VMobject Polyline** (`polyline`)
+
+  ```python
+  self.play(Create(VMobject(color=${2:BLUE}).set_points_as_corners([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))
+  ```
+
+- **VMobject Smooth Curve** (`smooth curve`)
+
+  ```python
+  self.play(Create(VMobject(color=${2:BLUE}).set_points_smoothly([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))
+  ```
+
+- **Dashed VMobject** (`dashed vmobject`)
+
+  ```python
+  self.play(Create(DashedVMobject(${1:Circle()}, num_dashes=${2:16}, dashed_ratio=${3:0.5}, color=${4:BLUE})))
+  ```
+
+- **Point on Bezier Path** (`point on bezier path`)
+
+  ```python
+  self.play(Create(Dot(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}).point_from_proportion(${5:0.5}), color=${6:YELLOW})))
+  ```
+
+- **VMobject Stroke Style** (`vmobject stroke style`)
+
+  ```python
+  self.play(Create(VMobject(stroke_color=${1:BLUE}, stroke_width=${2:6}).set_points_smoothly([${3:LEFT}, ${4:UP}, ${5:RIGHT}])))
   ```
 
 - **ArcPolygon** (`arc polygon`)

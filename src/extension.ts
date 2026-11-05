@@ -1,5 +1,104 @@
 import * as vscode from 'vscode';
 
+function getIndentation(line: string): number {
+  return line.length - line.trimStart().length;
+}
+
+function isInsideSceneConstruct(
+  document: vscode.TextDocument,
+  position: vscode.Position
+): boolean {
+  let sceneClassIndent: number | undefined;
+  let constructIndent: number | undefined;
+
+  for (let lineNumber = 0; lineNumber <= position.line; lineNumber++) {
+    const line = document.lineAt(lineNumber).text;
+    const text =
+      lineNumber === position.line
+        ? line.slice(0, position.character)
+        : line;
+    const trimmed = text.trim();
+
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+
+    const indentation = getIndentation(text);
+
+    if (sceneClassIndent !== undefined && indentation <= sceneClassIndent) {
+      sceneClassIndent = undefined;
+      constructIndent = undefined;
+    }
+
+    if (
+      /^class\s+\w+\s*\([^)]*\b(?:Scene|ThreeDScene)\b[^)]*\)\s*:/.test(
+        trimmed
+      )
+    ) {
+      sceneClassIndent = indentation;
+      constructIndent = undefined;
+      continue;
+    }
+
+    if (sceneClassIndent === undefined) {
+      continue;
+    }
+
+    if (constructIndent !== undefined && indentation <= constructIndent) {
+      constructIndent = undefined;
+    }
+
+    if (
+      indentation > sceneClassIndent &&
+      /^def\s+construct\s*\(/.test(trimmed)
+    ) {
+      constructIndent = indentation;
+    }
+  }
+
+  return (
+    sceneClassIndent !== undefined &&
+    constructIndent !== undefined &&
+    getIndentation(document.lineAt(position.line).text) > constructIndent
+  );
+}
+
+function isAtModuleScopeScenePrefix(
+  document: vscode.TextDocument,
+  position: vscode.Position
+): boolean {
+  let classIndent: number | undefined;
+
+  for (let lineNumber = 0; lineNumber < position.line; lineNumber++) {
+    const line = document.lineAt(lineNumber).text;
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+
+    const indentation = getIndentation(line);
+    if (classIndent !== undefined && indentation <= classIndent) {
+      classIndent = undefined;
+    }
+
+    if (/^class\s+\w+/.test(trimmed)) {
+      classIndent = indentation;
+    }
+  }
+
+  const line = document.lineAt(position.line).text;
+  const prefix = line.slice(0, position.character);
+  const currentWord = prefix.match(/[A-Za-z_]\w*$/)?.[0].toLowerCase() ?? '';
+
+  return (
+    classIndent === undefined &&
+    getIndentation(line) === 0 &&
+    currentWord.length > 0 &&
+    'scene'.startsWith(currentWord)
+  );
+}
+
 export function activate(context: vscode.ExtensionContext) {
   console.log('ManimHelper is now active!');
 
@@ -17,6 +116,27 @@ export function activate(context: vscode.ExtensionContext) {
       insertText:
         'self.play(Create(Circle(radius=${1:1}, color=${2:BLUE})))',
       detail: 'Create and animate a Manim circle'
+    },
+    {
+      label: 'Circle Through Three Points — Manim',
+      filterText: 'circle through three points',
+      insertText:
+        'self.play(Create(Circle.from_three_points(${1:LEFT}, ${2:UP}, ${3:RIGHT}, color=${4:BLUE})))',
+      detail: 'Create and animate a circle through three points'
+    },
+    {
+      label: 'Circle Around Object — Manim',
+      filterText: 'circle around object',
+      insertText:
+        'self.play(Create(Circle(color=${2:YELLOW}).surround(${1:mobject}, buffer_factor=${3:1.2})))',
+      detail: 'Create and animate a circle around an existing mobject'
+    },
+    {
+      label: 'Point on Circle — Manim',
+      filterText: 'point on circle',
+      insertText:
+        'self.play(Create(Dot(Circle(radius=${1:2}).point_at_angle(${2:PI / 2}), color=${3:YELLOW})))',
+      detail: 'Create and animate a dot at an angle on a circle'
     },
     {
       label: 'Square — Manim',
@@ -51,6 +171,13 @@ export function activate(context: vscode.ExtensionContext) {
       insertText:
         'self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, angle=${3:PI / 2}, color=${4:BLUE})))',
       detail: 'Create and animate an arc between two points'
+    },
+    {
+      label: 'Arc Between Points by Radius — Manim',
+      filterText: 'arc between points radius',
+      insertText:
+        'self.play(Create(ArcBetweenPoints(${1:LEFT}, ${2:RIGHT}, radius=${3:2.5}, color=${4:BLUE})))',
+      detail: 'Create and animate an arc between two points using its radius'
     },
     {
       label: 'Curved Arrow — Manim',
@@ -101,6 +228,13 @@ export function activate(context: vscode.ExtensionContext) {
       detail: 'Create and animate a sector of an annulus'
     },
     {
+      label: 'Annular Sector with Start Angle — Manim',
+      filterText: 'annular sector start angle',
+      insertText:
+        'self.play(Create(AnnularSector(inner_radius=${1:0.5}, outer_radius=${2:1}, start_angle=${3:PI / 4}, angle=${4:PI / 2}, color=${5:BLUE})))',
+      detail: 'Create and animate an annular sector with a custom start angle'
+    },
+    {
       label: 'Sector — Manim',
       filterText: 'sector',
       insertText:
@@ -120,6 +254,41 @@ export function activate(context: vscode.ExtensionContext) {
       insertText:
         'self.play(Create(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}, color=${5:BLUE})))',
       detail: 'Create and animate a cubic Bezier curve'
+    },
+    {
+      label: 'VMobject Polyline — Manim',
+      filterText: 'polyline',
+      insertText:
+        'self.play(Create(VMobject(color=${2:BLUE}).set_points_as_corners([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))',
+      detail: 'Draw a vector path through editable corner points'
+    },
+    {
+      label: 'VMobject Smooth Curve — Manim',
+      filterText: 'smooth curve',
+      insertText:
+        'self.play(Create(VMobject(color=${2:BLUE}).set_points_smoothly([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))',
+      detail: 'Draw a smooth vector path through editable anchor points'
+    },
+    {
+      label: 'Dashed VMobject — Manim',
+      filterText: 'dashed vmobject',
+      insertText:
+        'self.play(Create(DashedVMobject(${1:Circle()}, num_dashes=${2:16}, dashed_ratio=${3:0.5}, color=${4:BLUE})))',
+      detail: 'Draw a dashed copy of a vector shape'
+    },
+    {
+      label: 'Point on Bezier Path — Manim',
+      filterText: 'point on bezier path',
+      insertText:
+        'self.play(Create(Dot(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}).point_from_proportion(${5:0.5}), color=${6:YELLOW})))',
+      detail: 'Place and animate a dot at a proportion along a Bezier path'
+    },
+    {
+      label: 'VMobject Stroke Style — Manim',
+      filterText: 'vmobject stroke style',
+      insertText:
+        'self.play(Create(VMobject(stroke_color=${1:BLUE}, stroke_width=${2:6}).set_points_smoothly([${3:LEFT}, ${4:UP}, ${5:RIGHT}])))',
+      detail: 'Create a smooth vector path with an editable stroke color and width'
     },
     {
       label: 'Arc Polygon — Manim',
@@ -144,19 +313,45 @@ export function activate(context: vscode.ExtensionContext) {
     }
   ];
 
+  const sceneTemplates = [
+    {
+      label: 'Manim 2D Scene Template',
+      filterText: 'scene',
+      insertText:
+        'from manim import *\n\n\nclass ${1:MyScene}(Scene):\n    def construct(self):\n        ${0:self.play(Create(Circle(color=BLUE)))}',
+      detail: 'Insert a ready-to-edit 2D Manim scene'
+    },
+    {
+      label: 'Manim 3D Scene Template',
+      filterText: 'scene',
+      insertText:
+        'from manim import *\n\n\nclass ${1:My3DScene}(ThreeDScene):\n    def construct(self):\n        self.set_camera_orientation(phi=${2:70} * DEGREES, theta=${3:-45} * DEGREES)\n        ${0:self.play(Create(Sphere()))}',
+      detail: 'Insert a ready-to-edit 3D Manim scene'
+    }
+  ];
+
   const provider = vscode.languages.registerCompletionItemProvider(
     { language: 'python' },
     {
-      provideCompletionItems() {
-        return shapes.map((shape) => {
+      provideCompletionItems(
+        document: vscode.TextDocument,
+        position: vscode.Position
+      ) {
+        const availableSnippets = isInsideSceneConstruct(document, position)
+          ? shapes
+          : isAtModuleScopeScenePrefix(document, position)
+            ? sceneTemplates
+            : [];
+
+        return availableSnippets.map((snippet) => {
           const item = new vscode.CompletionItem(
-            shape.label,
+            snippet.label,
             vscode.CompletionItemKind.Snippet
           );
 
-          item.filterText = shape.filterText;
-          item.insertText = new vscode.SnippetString(shape.insertText);
-          item.detail = shape.detail;
+          item.filterText = snippet.filterText;
+          item.insertText = new vscode.SnippetString(snippet.insertText);
+          item.detail = snippet.detail;
 
           return item;
         });
@@ -167,8 +362,10 @@ export function activate(context: vscode.ExtensionContext) {
     'd',
     'e',
     'l',
+    'p',
     's',
-    't'
+    't',
+    'v'
   );
 
   context.subscriptions.push(helloWorld, provider);
