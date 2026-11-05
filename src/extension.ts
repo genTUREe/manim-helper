@@ -118,6 +118,13 @@ export function activate(context: vscode.ExtensionContext) {
       detail: 'Create and animate a Manim circle'
     },
     {
+      label: 'Filled Shape — Manim',
+      filterText: 'filled shape fill opacity',
+      insertText:
+        'self.play(Create(Circle(color=${1:BLUE}).set_fill(color=${2:BLUE}, opacity=${3:0.4})))',
+      detail: 'Create a shape with an editable fill color and opacity'
+    },
+    {
       label: 'Circle Through Three Points — Manim',
       filterText: 'circle through three points',
       insertText:
@@ -291,6 +298,34 @@ export function activate(context: vscode.ExtensionContext) {
       detail: 'Create a smooth vector path with an editable stroke color and width'
     },
     {
+      label: 'Gradient Curve — Manim',
+      filterText: 'gradient curve',
+      insertText:
+        'self.play(Create(CurvesAsSubmobjects(${1:CubicBezier(LEFT, LEFT + UP, RIGHT + UP, RIGHT)}).set_color_by_gradient(${2:BLUE}, ${3:RED})))',
+      detail: 'Draw a curve with an editable color gradient'
+    },
+    {
+      label: 'VGroup Composition — Manim',
+      filterText: 'vgroup group arrange',
+      insertText:
+        'self.play(Create(VGroup(${1:Circle()}, ${2:Square()}, ${3:Triangle()}).arrange(${4:RIGHT}, buff=${5:0.5})))',
+      detail: 'Arrange and animate a group of Manim objects together'
+    },
+    {
+      label: 'Sheen Highlight — Manim',
+      filterText: 'sheen highlight',
+      insertText:
+        'self.play(Create(Circle(color=${1:BLUE}, fill_opacity=1).set_sheen(${2:0.5}, ${3:UP})))',
+      detail: 'Add a directional sheen highlight to a filled shape'
+    },
+    {
+      label: 'Rounded Line Caps — Manim',
+      filterText: 'rounded line caps',
+      insertText:
+        'self.play(Create(Line(${1:LEFT}, ${2:RIGHT}, color=${3:YELLOW}, stroke_width=${4:20}).set_cap_style(CapStyleType.ROUND)))',
+      detail: 'Draw a thick line with rounded ends'
+    },
+    {
       label: 'Arc Polygon — Manim',
       filterText: 'arc polygon',
       insertText:
@@ -361,8 +396,11 @@ export function activate(context: vscode.ExtensionContext) {
     'c',
     'd',
     'e',
+    'f',
+    'g',
     'l',
     'p',
+    'r',
     's',
     't',
     'v'

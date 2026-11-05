@@ -34,7 +34,20 @@ async function getSnippetCompletions(
 suite('Extension Test Suite', () => {
 	test('provides shape snippets inside a Manim scene construct', async () => {
 		const snippets = new Map<string, vscode.SnippetString>();
-		for (const trigger of ['a', 'c', 'd', 'e', 'l', 'p', 's', 't', 'v']) {
+		for (const trigger of [
+			'a',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'l',
+			'p',
+			'r',
+			's',
+			't',
+			'v'
+		]) {
 			const completions = await getSnippetCompletions(
 				'class MyScene(Scene):\n    def construct(self):\n        ',
 				new vscode.Position(2, 8),
@@ -48,6 +61,7 @@ suite('Extension Test Suite', () => {
 
 		for (const shape of [
 			'Circle — Manim',
+			'Filled Shape — Manim',
 			'Circle Through Three Points — Manim',
 			'Circle Around Object — Manim',
 			'Point on Circle — Manim',
@@ -73,6 +87,10 @@ suite('Extension Test Suite', () => {
 			'Dashed VMobject — Manim',
 			'Point on Bezier Path — Manim',
 			'VMobject Stroke Style — Manim',
+			'Gradient Curve — Manim',
+			'VGroup Composition — Manim',
+			'Sheen Highlight — Manim',
+			'Rounded Line Caps — Manim',
 			'Arc Polygon — Manim',
 			'Arc Polygon From Arcs — Manim',
 			'Tangential Arc — Manim'

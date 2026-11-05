@@ -33,6 +33,12 @@ The static ManimHelper landing page is in `website/`. To preview it locally, ope
   self.play(Create(Circle(radius=${1:1}, color=${2:BLUE})))
   ```
 
+- **Filled Shape** (`filled shape`)
+
+  ```python
+  self.play(Create(Circle(color=${1:BLUE}).set_fill(color=${2:BLUE}, opacity=${3:0.4})))
+  ```
+
 - **Circle Through Three Points** (`circle through three points`)
 
   ```python
@@ -193,6 +199,30 @@ The static ManimHelper landing page is in `website/`. To preview it locally, ope
 
   ```python
   self.play(Create(VMobject(stroke_color=${1:BLUE}, stroke_width=${2:6}).set_points_smoothly([${3:LEFT}, ${4:UP}, ${5:RIGHT}])))
+  ```
+
+- **Gradient Curve** (`gradient curve`)
+
+  ```python
+  self.play(Create(CurvesAsSubmobjects(${1:CubicBezier(LEFT, LEFT + UP, RIGHT + UP, RIGHT)}).set_color_by_gradient(${2:BLUE}, ${3:RED})))
+  ```
+
+- **VGroup Composition** (`vgroup`)
+
+  ```python
+  self.play(Create(VGroup(${1:Circle()}, ${2:Square()}, ${3:Triangle()}).arrange(${4:RIGHT}, buff=${5:0.5})))
+  ```
+
+- **Sheen Highlight** (`sheen highlight`)
+
+  ```python
+  self.play(Create(Circle(color=${1:BLUE}, fill_opacity=1).set_sheen(${2:0.5}, ${3:UP})))
+  ```
+
+- **Rounded Line Caps** (`rounded line caps`)
+
+  ```python
+  self.play(Create(Line(${1:LEFT}, ${2:RIGHT}, color=${3:YELLOW}, stroke_width=${4:20}).set_cap_style(CapStyleType.ROUND)))
   ```
 
 - **ArcPolygon** (`arc polygon`)
