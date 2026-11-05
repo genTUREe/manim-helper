@@ -15,6 +15,10 @@ At the top level of a Python file, type `scene` and select one of the ready-to-e
 
 Use Tab to move through and edit the template placeholders.
 
+## Website
+
+The static ManimHelper landing page is in `website/` and is deployed at [manimhelper.vercel.app](https://manimhelper.vercel.app/). To preview it locally, open `website/index.html` in a browser. To deploy it with Vercel, set `website` as the project's Root Directory, then deploy the project from the Vercel dashboard or CLI.
+
 ## Shape snippets
 
 ### Basic shapes
