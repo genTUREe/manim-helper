@@ -132,7 +132,7 @@
               <span class="art-caption">1 + 3 + 5 = 3²</span>
             </div>
           </article>
-          <article class="example-card">
+          <article class="example-card code-example">
             <div class="example-copy">
               <span class="card-number">02 / MOTION</span>
               <h3>From a circle to a wave</h3>
@@ -153,8 +153,19 @@
                 <text class="wave-label" x="212" y="119" text-anchor="middle">height → wave</text>
               </svg>
             </div>
+            <pre class="example-code" aria-label="Manim code for tracing a sine wave from a rotating point"><code><span class="code-purple">circle</span> = <span class="code-green">Circle</span>().<span class="code-green">shift</span>(LEFT * <span class="code-orange">3</span>)
+<span class="code-purple">angle</span> = <span class="code-green">ValueTracker</span>(<span class="code-orange">0</span>)
+<span class="code-purple">dot</span> = <span class="code-green">always_redraw</span>(
+    <span class="code-purple">lambda</span>: <span class="code-green">Dot</span>(circle.<span class="code-green">point_at_angle</span>(angle.<span class="code-green">get_value</span>())))
+<span class="code-purple">wave</span> = <span class="code-green">TracedPath</span>(
+    <span class="code-purple">lambda</span>: np.<span class="code-green">array</span>([
+        angle.<span class="code-green">get_value</span>() / PI - <span class="code-orange">1</span>,
+        np.<span class="code-green">sin</span>(angle.<span class="code-green">get_value</span>()) - <span class="code-orange">2</span>, <span class="code-orange">0</span>]))
+<span class="code-purple">self</span>.<span class="code-green">add</span>(circle, wave, dot)
+<span class="code-purple">self</span>.<span class="code-green">play</span>(angle.<span class="code-green">animate</span>.<span class="code-green">set_value</span>(
+    TAU), <span class="code-orange">run_time=4</span>, <span class="code-orange">rate_func=linear</span>)</code></pre>
           </article>
-          <article class="example-card">
+          <article class="example-card code-example">
             <div class="example-copy">
               <span class="card-number">03 / GEOMETRY</span>
               <h3>The Pythagorean theorem</h3>
@@ -172,6 +183,20 @@
                 <text x="151" y="95" fill="#ffca91" font-size="13">c²</text>
               </svg>
             </div>
+            <pre class="example-code" aria-label="Manim code for constructing squares on the sides of a right triangle"><code><span class="code-purple">A</span>, <span class="code-purple">B</span>, <span class="code-purple">C</span> = (
+    np.<span class="code-green">array</span>([-<span class="code-orange">2</span>, -<span class="code-orange">1</span>, <span class="code-orange">0</span>]),
+    np.<span class="code-green">array</span>([-<span class="code-orange">2</span>, <span class="code-orange">1</span>, <span class="code-orange">0</span>]),
+    np.<span class="code-green">array</span>([<span class="code-orange">1</span>, -<span class="code-orange">1</span>, <span class="code-orange">0</span>]))
+<span class="code-purple">def</span> <span class="code-blue">square_on_side</span>(p, q, sign):
+    edge = q - p
+    normal = sign * np.<span class="code-green">array</span>([-edge[<span class="code-orange">1</span>], edge[<span class="code-orange">0</span>], <span class="code-orange">0</span>])
+    <span class="code-purple">return</span> <span class="code-green">Polygon</span>(p, q, q + normal, p + normal)
+<span class="code-purple">triangle</span> = <span class="code-green">Polygon</span>(A, B, C)
+<span class="code-purple">squares</span> = <span class="code-green">VGroup</span>(
+    square_on_side(A, B, <span class="code-orange">1</span>),
+    square_on_side(A, C, -<span class="code-orange">1</span>),
+    square_on_side(B, C, <span class="code-orange">1</span>))
+<span class="code-purple">self</span>.<span class="code-green">play</span>(<span class="code-green">Create</span>(triangle), <span class="code-green">Create</span>(squares))</code></pre>
           </article>
           <article class="example-card code-example">
             <div class="example-copy">
