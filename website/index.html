@@ -166,6 +166,70 @@
               </svg>
             </div>
           </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">04 / POLYGONS</span>
+              <h3>Build a hexagon</h3>
+              <p>Draw a six-sided shape, then turn it through one clean step.</p>
+              <span class="code-pill">RegularPolygon · Rotate · PI</span>
+            </div>
+            <div class="example-art art-hexagon">
+              <svg viewBox="0 0 300 150" role="img" aria-label="A glowing outline hexagon with six marked corners">
+                <path class="hexagon-shape" d="M118 36 163 36 186 75 163 114 118 114 95 75Z"/>
+                <circle cx="118" cy="36" r="3"/><circle cx="163" cy="36" r="3"/>
+                <circle cx="186" cy="75" r="3"/><circle cx="163" cy="114" r="3"/>
+                <circle cx="118" cy="114" r="3"/><circle cx="95" cy="75" r="3"/>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for drawing a rotating hexagon"><code><span class="code-purple">hexagon</span> = <span class="code-green">RegularPolygon</span>(<span class="code-orange">n=6</span>)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(hexagon))
+<span class="code-purple">self</span>.play(<span class="code-green">Rotate</span>(hexagon, <span class="code-orange">PI / 3</span>))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">05 / VECTORS</span>
+              <h3>Make vectors add up</h3>
+              <p>Place one arrow after another and compare the result with their sum.</p>
+              <span class="code-pill">Arrow · Vector · Transform</span>
+            </div>
+            <div class="example-art art-vectors">
+              <svg viewBox="0 0 300 150" role="img" aria-label="Two vectors combine into a longer result vector">
+                <defs>
+                  <marker id="vectorArrowA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#7cf4c5"/></marker>
+                  <marker id="vectorArrowB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#a88cff"/></marker>
+                  <marker id="vectorArrowC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#ffb870"/></marker>
+                </defs>
+                <path class="vector-guide" d="M55 115 145 115 205 45"/>
+                <path class="vector-a" d="M55 115 145 115" marker-end="url(#vectorArrowA)"/>
+                <path class="vector-b" d="M145 115 205 45" marker-end="url(#vectorArrowB)"/>
+                <path class="vector-sum" d="M55 115 205 45" marker-end="url(#vectorArrowC)"/>
+                <text x="91" y="136">a</text><text x="178" y="91">b</text><text x="116" y="72">a + b</text>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for adding two vectors"><code><span class="code-purple">a</span> = <span class="code-green">Arrow</span>(ORIGIN, RIGHT)
+<span class="code-purple">b</span> = <span class="code-green">Arrow</span>(RIGHT, RIGHT + UP)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(<span class="code-green">VGroup</span>(a, b)))</code></pre>
+          </article>
+          <article class="example-card code-example">
+            <div class="example-copy">
+              <span class="card-number">06 / CURVES</span>
+              <h3>Trace a spiral</h3>
+              <p>Watch a single path wind outward from the center.</p>
+              <span class="code-pill">ParametricFunction · Create</span>
+            </div>
+            <div class="example-art art-spiral">
+              <svg viewBox="0 0 300 150" role="img" aria-label="A coral and teal spiral expanding from its center">
+                <path class="spiral-path" d="M150 75 C150 68 160 68 160 75 C160 87 140 87 140 75 C140 57 170 57 170 75 C170 98 130 98 130 75 C130 46 180 46 180 75 C180 110 120 110 120 75 C120 35 190 35 190 75 C190 123 110 123 110 75"/>
+                <circle class="spiral-core" cx="150" cy="75" r="4"/>
+              </svg>
+            </div>
+            <pre class="example-code" aria-label="Manim code for drawing a spiral"><code>            <span class="code-purple">import</span> numpy <span class="code-purple">as</span> np
+            <span class="code-purple">spiral</span> = <span class="code-green">ParametricFunction</span>(
+    <span class="code-purple">lambda</span> t: <span class="code-orange">0.08</span> * t * <span class="code-green">np.array</span>([
+        <span class="code-green">np.cos</span>(t), <span class="code-green">np.sin</span>(t), <span class="code-orange">0</span>]),
+    <span class="code-orange">t_range=[0, 8 * PI]</span>)
+<span class="code-purple">self</span>.play(<span class="code-green">Create</span>(spiral))</code></pre>
+          </article>
         </div>
       </section>
 
