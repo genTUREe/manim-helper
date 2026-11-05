@@ -165,6 +165,36 @@ The static ManimHelper landing page is in `website/`. To preview it locally, ope
   self.play(Create(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}, color=${5:BLUE})))
   ```
 
+- **VMobject Polyline** (`polyline`)
+
+  ```python
+  self.play(Create(VMobject(color=${2:BLUE}).set_points_as_corners([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))
+  ```
+
+- **VMobject Smooth Curve** (`smooth curve`)
+
+  ```python
+  self.play(Create(VMobject(color=${2:BLUE}).set_points_smoothly([${1:LEFT}, ${3:UP}, ${4:RIGHT}])))
+  ```
+
+- **Dashed VMobject** (`dashed vmobject`)
+
+  ```python
+  self.play(Create(DashedVMobject(${1:Circle()}, num_dashes=${2:16}, dashed_ratio=${3:0.5}, color=${4:BLUE})))
+  ```
+
+- **Point on Bezier Path** (`point on bezier path`)
+
+  ```python
+  self.play(Create(Dot(CubicBezier(${1:LEFT}, ${2:LEFT + UP}, ${3:RIGHT + UP}, ${4:RIGHT}).point_from_proportion(${5:0.5}), color=${6:YELLOW})))
+  ```
+
+- **VMobject Stroke Style** (`vmobject stroke style`)
+
+  ```python
+  self.play(Create(VMobject(stroke_color=${1:BLUE}, stroke_width=${2:6}).set_points_smoothly([${3:LEFT}, ${4:UP}, ${5:RIGHT}])))
+  ```
+
 - **ArcPolygon** (`arc polygon`)
 
   ```python
