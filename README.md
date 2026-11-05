@@ -17,9 +17,7 @@ Use Tab to move through and edit the template placeholders.
 
 ## Website
 
-The Fieldnote landing page and in-browser sketchpad preview are a self-contained HTML file in `website/index.html`. Open it in a browser to preview locally, or run `vercel dev --cwd website` to test with Vercel locally. Deploy the static page with `vercel deploy --cwd website --prod` or set `website` as the Vercel project's Root Directory.
-
-The sketchpad is a front-end demo: it stores editable text in the browser and animates a sample SVG, but it does not execute Python or upload submissions. There is intentionally no render API here. Never run visitor-submitted Python in the web process. A production renderer needs a separate, network-isolated sandbox with strict CPU, memory, process, file-size, concurrency, and timeout limits, plus automatic cleanup of rendered files.
+The static ManimHelper landing page is in `website/` and is deployed at [manimhelper.vercel.app](https://manimhelper.vercel.app/). To preview it locally, open `website/index.html` in a browser. To deploy it with Vercel, set `website` as the project's Root Directory, then deploy the project from the Vercel dashboard or CLI.
 
 ## Shape snippets
 
